@@ -27,6 +27,15 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(jpg|jpeg|png|gif|woff|eot|ttf|svg)/,
+        use: {
+          loader: 'url-loader', // this need file-loader
+          options: {
+            limit: 50000
+          },
+        }
+      },
+      {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: 'babel-loader',
