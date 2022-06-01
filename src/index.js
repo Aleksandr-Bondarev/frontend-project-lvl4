@@ -5,27 +5,18 @@ import 'regenerator-runtime/runtime.js';
 
 import '../assets/application.scss';
 
+import app from './App.jsx';
+
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const p = document.createElement('p');
-p.classList.add('card-text');
-p.textContent = 'It works!';
+const body = document.querySelector('body');
+body.classList.add('bg-light');
 
-const h5 = document.createElement('h5');
-h5.classList.add('card-title');
-h5.textContent = 'Project frontend l4 boilerplate';
+document.body.children[0].classList.remove('p-3');
+document.body.children[0].classList.remove('container-lg');
 
-const cardBody = document.createElement('div');
-cardBody.classList.add('card-body');
-cardBody.append(h5, p);
-
-const card = document.createElement('div');
-card.classList.add('card', 'text-center');
-card.append(cardBody);
-
-const container = document.querySelector('#chat');
-container.append(card);
+app();
 
 console.log('it works!');
