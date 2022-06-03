@@ -24,6 +24,6 @@ jobs:
       - name: Run Linter
         run: |
           make lint
-      - name: Deploy
+      - name: Test
         run: |
-          make deploy
+          make test
