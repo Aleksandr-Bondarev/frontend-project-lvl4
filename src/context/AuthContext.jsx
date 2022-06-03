@@ -1,6 +1,6 @@
 /* eslint react/jsx-no-constructed-context-values: [0] */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 export const AuthContext = React.createContext();
 
@@ -14,14 +14,18 @@ export function AuthContextProvider({ children }) {
     return !!token;
   };
 
+  const [authentificationStatus, setAuthentificationStatus] = useState(isAuthorized());
+
   const toLogIn = ({ token, username }) => {
     localStorage.setItem('token', token);
     localStorage.setItem('username', username);
+    setAuthentificationStatus(true);
   };
 
   const toLogOut = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
+    setAuthentificationStatus(false);
   };
 
   return (
@@ -31,6 +35,7 @@ export function AuthContextProvider({ children }) {
       isAuthorized,
       toLogIn,
       toLogOut,
+      authentificationStatus,
     }}
     >
       {children}

@@ -7,10 +7,10 @@ import SignUp from './SignUp.jsx';
 import Chat from './Chat.jsx';
 
 function App() {
-  const { isAuthorized } = useContext(AuthContext);
+  const { authentificationStatus } = useContext(AuthContext);
   return (
     <Routes>
-      <Route path="/" element={isAuthorized() ? <Chat /> : <Login />} />
+      <Route path="/" element={authentificationStatus ? <Chat /> : <Login />} />
       <Route path="login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
       <Route path="signup" element={<SignUp />} />

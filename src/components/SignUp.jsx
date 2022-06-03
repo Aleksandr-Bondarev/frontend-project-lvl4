@@ -56,7 +56,6 @@ function SignUp() {
 
           tooltipConfirm.textContent = 'Такой пользователь уже существует';
         }
-        // navigate('/login');
       }
     },
   });
