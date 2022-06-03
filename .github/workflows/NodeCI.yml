@@ -2,13 +2,14 @@ name: NodeCI
 
 on:
   - push
+
 jobs:
   my-job:
     runs-on: ubuntu-latest 
     timeout-minutes: 10
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -16,9 +17,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install
+      - name: Install, build
         run: |
           make install
+          make build
       - name: Run Linter
         run: |
           make lint
