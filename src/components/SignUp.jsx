@@ -30,7 +30,7 @@ function SignUp() {
       // console.log({ username, password });
       // console.log('first logging');
       try {
-        console.log('pre post logging');
+        // console.log('pre post logging');
         const response = await axios.post('api/v1/signup', {
           username,
           password,
