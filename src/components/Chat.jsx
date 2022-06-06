@@ -1,8 +1,10 @@
+/* eslint no-unused-vars: [0] */
+
 import React, { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext.jsx';
 import axios from 'axios';
-import { setAlreadyExistingChannels } from '../slices/channelsSlice.js';
 import { useDispatch } from 'react-redux';
+import { AuthContext } from '../context/AuthContext.jsx';
+import { setAlreadyExistingChannels } from '../slices/channelsSlice.js';
 
 function Chat() {
   const { getToken } = useContext(AuthContext);
@@ -13,17 +15,17 @@ function Chat() {
       const response = await axios({
         method: 'get',
         url: '/api/v1/data',
-        headers : {
+        headers: {
           Authorization: `Bearer ${getToken()}`,
-        }
-      })
+        },
+      });
       console.log(response);
       const { channels, messages, currentChannelId } = response.data;
-      dispatch(setAlreadyExistingChannels(channels))
+      dispatch(setAlreadyExistingChannels(channels));
     } catch {
       console.log('error!');
     }
-  }
+  };
 
   initChat();
 

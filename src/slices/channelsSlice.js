@@ -1,18 +1,20 @@
+/* eslint-disable no-param-reassign */
+
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    channels: [],
+  channels: [],
 };
 
 const channelsSlice = createSlice({
-    name: 'channels',
-    initialState,
-    reducers: {
-        setAlreadyExistingChannels: (state, action) => {
-            state.channels = action.payload;
-            console.log(state.channels);
-        },
+  name: 'channels',
+  initialState,
+  reducers: {
+    setAlreadyExistingChannels: (state, action) => {
+      state.channels = action.payload;
+      console.log(state.channels);
     },
+  },
 });
 
 export const { setAlreadyExistingChannels } = channelsSlice.actions;
