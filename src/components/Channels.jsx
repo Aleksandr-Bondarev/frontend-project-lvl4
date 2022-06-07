@@ -7,7 +7,7 @@ const Channels = () => {
 
   const channelsList = chatChannels.map((channel) => (
     <li className="nav-item w-100" key={channel.id}>
-      <button type="button" className={classNames('w-100', 'rounded-0', 'text-start', 'btn', { 'btn-secondary': channel.name === 'general' })}>
+      <button type="button" id={channel.id} className={classNames('w-100', 'rounded-0', 'text-start', 'btn', { 'btn-secondary': channel.name === 'general' })}>
         <span className="me-1">#</span>
         {channel.name}
       </button>
