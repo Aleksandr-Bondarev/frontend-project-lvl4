@@ -1,7 +1,9 @@
+/* eslint no-unused-expressions: [0] */
+
 import React, { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext.jsx';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
+import { AuthContext } from '../context/AuthContext.jsx';
 import { SocketContext } from '../context/SocketContextProvider.jsx';
 
 function MessageSendingForm() {
@@ -9,7 +11,6 @@ function MessageSendingForm() {
   const socket = useContext(SocketContext);
   const { getUser } = useContext(AuthContext);
   const currentUserName = getUser();
-
 
   const formik = useFormik({
     initialValues: {
@@ -23,7 +24,7 @@ function MessageSendingForm() {
       console.log(e.message);
       console.log({ text: e.message, channelId: currentChannelId });
       socket.emit('newMessage', { text: e.message, channelId: currentChannelId, username: currentUserName });
-      document.getElementById('message').value = "";
+      document.getElementById('message').value = '';
     },
   });
 

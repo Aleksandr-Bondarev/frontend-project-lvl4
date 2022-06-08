@@ -1,5 +1,5 @@
 // @ts-check
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 

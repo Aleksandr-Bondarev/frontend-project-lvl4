@@ -1,3 +1,5 @@
+/* eslint max-len: [0] */
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 
@@ -12,9 +14,11 @@ function Messages() {
   const messagesToRender = currentChannelMessages.map((message) => (
     <div className="text-break mb-2" key={message.id}>
       <b>{message.username}</b>
-      : {message.text}
+      :
+      {' '}
+      {message.text}
     </div>
-  ))
+  ));
 
   return (
     messagesToRender

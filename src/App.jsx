@@ -27,7 +27,7 @@ const app = (socket) => {
         </SocketContextProvider>
       </BrowserRouter>
     </Provider>,
-    document.getElementById('chat')
+    document.getElementById('chat'),
   );
 };
 
