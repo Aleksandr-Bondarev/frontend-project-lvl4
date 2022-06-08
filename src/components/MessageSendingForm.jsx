@@ -23,7 +23,12 @@ function MessageSendingForm() {
       console.log(e);
       console.log(e.message);
       console.log({ text: e.message, channelId: currentChannelId });
-      socket.emit('newMessage', { text: e.message, channelId: currentChannelId, username: currentUserName });
+      socket.emit('newMessage', { text: e.message, channelId: currentChannelId, username: currentUserName }, (response) => {
+        console.log(response.status);
+        if (response.status !== 'ok') {
+          console.log('Message is not delivered!');
+        }
+      });
       document.getElementById('message').value = '';
     },
   });
