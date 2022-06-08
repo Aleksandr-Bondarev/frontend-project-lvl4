@@ -1,10 +1,12 @@
 /* eslint-disable no-param-reassign */
+/* eslint max-len: [0] */
 
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   channels: [],
   activeChannelId: null,
+  activeChannelName: '',
 };
 
 const channelsSlice = createSlice({
@@ -19,9 +21,13 @@ const channelsSlice = createSlice({
       const id = action.payload;
       state.activeChannelId = id;
     },
+    setActiveChannelName: (state, action) => {
+      const name = action.payload;
+      state.activeChannelName = name;
+    },
   },
 });
 
-export const { setAlreadyExistingChannels, setActiveChannelId } = channelsSlice.actions;
+export const { setAlreadyExistingChannels, setActiveChannelId, setActiveChannelName } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

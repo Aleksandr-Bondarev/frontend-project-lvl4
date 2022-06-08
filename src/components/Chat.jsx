@@ -2,9 +2,9 @@
 
 import React, { useContext } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AuthContext } from '../context/AuthContext.jsx';
-import { setAlreadyExistingChannels, setActiveChannelId } from '../slices/channelsSlice.js';
+import { setAlreadyExistingChannels, setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
 import { importExistingMessages } from '../slices/messagesSlice.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
@@ -12,6 +12,7 @@ import MessageSendingForm from './MessageSendingForm.jsx';
 
 function Chat() {
   const { getToken } = useContext(AuthContext);
+  const currentChannelName = useSelector((state) => state.channels.activeChannelName);
   const dispatch = useDispatch();
 
   const initChat = async () => {
@@ -25,6 +26,7 @@ function Chat() {
       });
       console.log('RESPONSE', response);
       const { channels, messages, currentChannelId } = response.data;
+      dispatch(setActiveChannelName(channels[currentChannelId - 1].name));
       dispatch(importExistingMessages(messages));
       dispatch(setAlreadyExistingChannels(channels));
       dispatch(setActiveChannelId(currentChannelId));
@@ -56,7 +58,12 @@ function Chat() {
         <div className="col p-0 h-100">
           <div className="d-flex flex-column h-100">
             <div className="bg-light mb-4 p-3 shadow-sm small">
-              <p className="m-0"><b>CURRENT CHAT NAME</b></p>
+              <p className="m-0">
+                <b>
+                  #
+                  {currentChannelName}
+                </b>
+              </p>
               <span className="text-muted">number of chat messages</span>
             </div>
             <div id="messages-box" className="chat-messages overflow-auto px-5 ">
