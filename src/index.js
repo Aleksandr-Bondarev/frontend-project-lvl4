@@ -1,5 +1,5 @@
 // @ts-check
-
+import { io } from "socket.io-client";
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 
@@ -17,6 +17,12 @@ body.classList.add('bg-light');
 document.body.children[0].classList.remove('p-3');
 document.body.children[0].classList.remove('container-lg');
 
-app();
+const initApp = () => {
+  const socket = io();
+  console.log(socket);
+  app(socket);
+};
+
+initApp();
 
 console.log('it works!');

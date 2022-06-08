@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext.jsx';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
+import { SocketContext } from '../context/SocketContextProvider.jsx';
 
 function MessageSendingForm() {
   const currentChannelId = useSelector((state) => state.channels.activeChannelId);
+  const socket = useContext(SocketContext);
+  const { getUser } = useContext(AuthContext);
+  const currentUserName = getUser();
+
 
   const formik = useFormik({
     initialValues: {
       message: '',
     },
-    onSubmit: () => {
+    onSubmit: (e) => {
+      e.preventDefault;
       console.log('channel id', currentChannelId);
+      console.log('SOCKET!!!', socket);
+      console.log(e);
+      console.log(e.message);
+      console.log({ text: e.message, channelId: currentChannelId });
+      socket.emit('newMessage', { text: e.message, channelId: currentChannelId, username: currentUserName });
+      document.getElementById('message').value = "";
     },
   });
 

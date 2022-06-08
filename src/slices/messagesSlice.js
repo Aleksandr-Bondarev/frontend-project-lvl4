@@ -11,7 +11,9 @@ const messagesSlice = createSlice({
   initialState,
   reducers: {
     sendNewMessage: (state, action) => {
-      state.messages.push(action.payload.messages);
+      // console.log('from slice', action);
+      // console.log('from slice', action.payload);
+      state.messages.push(action.payload.message);
     },
     importExistingMessages: (state, action) => {
       state.messages = action.payload;

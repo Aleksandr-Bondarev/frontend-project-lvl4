@@ -2,15 +2,22 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 function Messages() {
-  const chatMessages = useSelector((state) => state.messages);
-  console.log(chatMessages);
+  const allChatMessages = useSelector((state) => state.messages.messages);
+  const currentChannelId = useSelector((state) => state.channels.activeChannelId);
+  const currentChannelMessages = allChatMessages.filter((message) => message.channelId === currentChannelId);
+
+  console.log('from Messages', allChatMessages, currentChannelId, currentChannelMessages);
   useSelector((state) => console.log(state));
 
-  return (
-    <div className="text-break mb-2">
-      <b>username</b>
-      : Chat message
+  const messagesToRender = currentChannelMessages.map((message) => (
+    <div className="text-break mb-2" key={message.id}>
+      <b>{message.username}</b>
+      : {message.text}
     </div>
+  ))
+
+  return (
+    messagesToRender
   );
 }
 
