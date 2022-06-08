@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { setAlreadyExistingChannels, setActiveChannelId } from '../slices/channelsSlice.js';
+import { importExistingMessages } from '../slices/messagesSlice.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 import MessageSendingForm from './MessageSendingForm.jsx';
@@ -22,8 +23,9 @@ function Chat() {
           Authorization: `Bearer ${getToken()}`,
         },
       });
-      console.log(response);
+      console.log('RESPONSE', response);
       const { channels, messages, currentChannelId } = response.data;
+      dispatch(importExistingMessages(messages));
       dispatch(setAlreadyExistingChannels(channels));
       dispatch(setActiveChannelId(currentChannelId));
     } catch {

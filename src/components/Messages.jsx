@@ -8,6 +8,8 @@ function Messages() {
   const currentChannelId = useSelector((state) => state.channels.activeChannelId);
   const currentChannelMessages = allChatMessages.filter((message) => message.channelId === currentChannelId);
 
+  console.log('ALL CHAT MESSAGES', allChatMessages);
+
   console.log('from Messages', allChatMessages, currentChannelId, currentChannelMessages);
   useSelector((state) => console.log(state));
 
