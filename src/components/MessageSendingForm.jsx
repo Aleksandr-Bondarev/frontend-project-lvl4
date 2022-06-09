@@ -1,4 +1,5 @@
 /* eslint no-unused-expressions: [0] */
+/* eslint no-alert: [0] */
 
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
@@ -16,20 +17,14 @@ function MessageSendingForm() {
     initialValues: {
       message: '',
     },
-    onSubmit: (e) => {
-      e.preventDefault;
-      console.log('channel id', currentChannelId);
-      console.log('SOCKET!!!', socket);
-      console.log(e);
-      console.log(e.message);
-      console.log({ text: e.message, channelId: currentChannelId });
-      socket.emit('newMessage', { text: e.message, channelId: currentChannelId, username: currentUserName }, (response) => {
-        console.log(response.status);
-        if (response.status !== 'ok') {
-          console.log('Message is not delivered!');
+    onSubmit: ({ message }, actions) => {
+      socket.emit('newMessage', { text: message, channelId: currentChannelId, username: currentUserName }, (response) => {
+        console.log('response status', response.status);
+        if (!response.status) {
+          alert('Message is not delivered!');
         }
       });
-      document.getElementById('message').value = '';
+      actions.resetForm();
     },
   });
 

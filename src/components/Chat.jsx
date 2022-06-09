@@ -13,6 +13,7 @@ import MessageSendingForm from './MessageSendingForm.jsx';
 function Chat() {
   const { getToken } = useContext(AuthContext);
   const currentChannelName = useSelector((state) => state.channels.activeChannelName);
+  const channelsInStore = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
 
   const initChat = async () => {
@@ -34,8 +35,9 @@ function Chat() {
       console.log('error!');
     }
   };
-
-  initChat();
+  if (channelsInStore.length === 0) {
+    initChat();
+  }
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
