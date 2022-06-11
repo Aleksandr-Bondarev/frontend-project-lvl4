@@ -22,11 +22,9 @@ const Channels = () => {
   };
 
   const showDropdownMenu = (e) => {
-    console.log('THIIIIIIIIIS', e);
     e.target.ariaExpanded = 'true';
     e.target.nextSibling.classList.add('show');
     e.target.parentElement.classList.add('show');
-    console.log('pareeeeeeeeeeent', e.target.parentElement);
   };
 
   const channelsList = chatChannels.map((channel) => (

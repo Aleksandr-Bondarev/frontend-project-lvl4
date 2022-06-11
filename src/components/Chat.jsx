@@ -5,19 +5,16 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { setAlreadyExistingChannels, setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
-import { setModalAddChannelStatus, setModalOpenStatus } from '../slices/modalsSlice.js';
+import { setModalAddChannelStatus } from '../slices/modalsSlice.js';
 import { importExistingMessages } from '../slices/messagesSlice.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 import MessageSendingForm from './MessageSendingForm.jsx';
 import ModalAddChannel from './modals/ModalAddChannel.jsx';
-import ModalFadeShow from './modals/ModalFadeShow.jsx';
 
 function Chat() {
   const { getToken } = useContext(AuthContext);
   const currentChannelName = useSelector((state) => state.channels.activeChannelName);
-  const channelsInStore = useSelector((state) => state.channels.channels);
-  const modalIsOpen = useSelector((state) => state.modals.modalIsOpen);
   const addChannelIsOpen = useSelector((state) => state.modals.addChannel);
   const dispatch = useDispatch();
 
@@ -47,7 +44,6 @@ function Chat() {
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
-      <ModalFadeShow status={modalIsOpen} />
       <ModalAddChannel status={addChannelIsOpen} />
       <div className="row h-100 bg-white flex-md-row">
         <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
@@ -57,7 +53,6 @@ function Chat() {
               type="button"
               className="p-0 text-primary btn btn-group-vertical"
               onClick={() => {
-                dispatch(setModalOpenStatus(true));
                 dispatch(setModalAddChannelStatus(true));
               }}
             >
