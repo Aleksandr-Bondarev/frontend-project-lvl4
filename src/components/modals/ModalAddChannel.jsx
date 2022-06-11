@@ -1,32 +1,26 @@
 /* eslint jsx-a11y/label-has-associated-control: [0] */
 
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { setModalAddChannelStatus, setModalOpenStatus } from '../../slices/modalsSlice.js';
-import { addNewChannel, setActiveChannelId, setActiveChannelName } from '../../slices/channelsSlice.js';
+import { SocketContext } from '../../context/SocketContextProvider.jsx';
+import { acknowledgeChannelCreating } from '../../acknowledgeCallbacks.js';
 
 function ModalAddChannel(props) {
   const { status } = props;
   const dispatch = useDispatch();
-  const channelsInChat = useSelector((state) => state.channels.channels);
+  const socket = useContext(SocketContext);
 
   const formik = useFormik({
     initialValues: {
       name: '',
     },
-    onSubmit: ({ name }, actions) => {
-      const newCHannelId = channelsInChat.length + 1;
+    onSubmit: async ({ name }, actions) => {
       const newChannelName = name;
-      dispatch(addNewChannel({
-        id: newCHannelId,
-        name: newChannelName,
-        removable: true,
-      }));
+      await socket.emit('newChannel', { name: newChannelName }, acknowledgeChannelCreating);
       dispatch(setModalAddChannelStatus(false));
       dispatch(setModalOpenStatus(false));
-      dispatch(setActiveChannelId(newCHannelId));
-      dispatch(setActiveChannelName(name));
       actions.resetForm();
     },
   });

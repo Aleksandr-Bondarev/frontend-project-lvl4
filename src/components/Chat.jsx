@@ -1,6 +1,6 @@
 /* eslint no-unused-vars: [0] */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthContext } from '../context/AuthContext.jsx';
@@ -40,9 +40,10 @@ function Chat() {
       console.log('error!');
     }
   };
-  if (channelsInStore.length === 0) {
+
+  React.useEffect(() => {
     initChat();
-  }
+  }, []);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

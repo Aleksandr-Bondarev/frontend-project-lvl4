@@ -7,11 +7,16 @@ import RoutesInit from './components/RoutesInit.jsx';
 import { AuthContextProvider } from './context/AuthContext.jsx';
 import { SocketContextProvider } from './context/SocketContextProvider.jsx';
 import { sendNewMessage } from './slices/messagesSlice.js';
+import { addNewChannel } from './slices/channelsSlice.js';
 import store from './slices/index.js';
 
-const app = (socket) => {
+const App = (socket) => {
   socket.on('newMessage', (message) => {
     store.dispatch(sendNewMessage({ message }));
+  });
+
+  socket.on('newChannel', (newChannel) => {
+    store.dispatch(addNewChannel(newChannel));
   });
 
   ReactDOM.render(
@@ -31,4 +36,4 @@ const app = (socket) => {
   );
 };
 
-export default app;
+export default App;
