@@ -6,8 +6,10 @@ import Navbar from './components/Navbar.jsx';
 import RoutesInit from './components/RoutesInit.jsx';
 import { AuthContextProvider } from './context/AuthContext.jsx';
 import { SocketContextProvider } from './context/SocketContextProvider.jsx';
-import { sendNewMessage } from './slices/messagesSlice.js';
-import { addNewChannel } from './slices/channelsSlice.js';
+import { sendNewMessage, deleteChannelMessages } from './slices/messagesSlice.js';
+import {
+  addNewChannel, deleteChannel, setActiveChannelId, setActiveChannelName,
+} from './slices/channelsSlice.js';
 import store from './slices/index.js';
 
 const App = (socket) => {
@@ -17,6 +19,14 @@ const App = (socket) => {
 
   socket.on('newChannel', (newChannel) => {
     store.dispatch(addNewChannel(newChannel));
+  });
+
+  socket.on('removeChannel', (response) => {
+    const channelIdToRemove = response.id;
+    store.dispatch(deleteChannel(channelIdToRemove));
+    store.dispatch(deleteChannelMessages(channelIdToRemove));
+    store.dispatch(setActiveChannelId(1));
+    store.dispatch(setActiveChannelName('general'));
   });
 
   ReactDOM.render(

@@ -1,30 +1,21 @@
 /* eslint jsx-a11y/control-has-associated-label: [0] */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
+import { Dropdown } from 'react-bootstrap';
 import { setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
+import { SocketContext } from '../context/SocketContextProvider.jsx';
 
 const Channels = () => {
   const chatChannels = useSelector((state) => state.channels.channels);
   const activeChannelName = useSelector((state) => state.channels.activeChannelName);
   const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
 
   const switchChannel = (channelName, channelId) => {
     dispatch(setActiveChannelId(channelId));
     dispatch(setActiveChannelName(channelName));
-  };
-
-  const dropdownMenuStyle = {
-    position: 'absolute',
-    inset: '0px auto auto 0px',
-    transform: 'translate(73px, 40px)',
-  };
-
-  const showDropdownMenu = (e) => {
-    e.target.ariaExpanded = 'true';
-    e.target.nextSibling.classList.add('show');
-    e.target.parentElement.classList.add('show');
   };
 
   const channelsList = chatChannels.map((channel) => (
@@ -41,20 +32,20 @@ const Channels = () => {
         </button>
         { channel.name !== 'general' && channel.name !== 'random'
       && (
-      <button
-        type="button"
-        aria-expanded="false"
-        className="flex-grow-0 dropdown-toggle dropdown-toggle-split btn"
-        onClick={(e) => showDropdownMenu(e)}
-      />
+        <Dropdown>
+          <Dropdown.Toggle variant="Secondary" id="dropdown-basic" />
+
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => {
+              socket.emit('removeChannel', { id: channel.id });
+            }}
+            >
+              Удалить
+            </Dropdown.Item>
+            <Dropdown.Item href="#/action-2">Переименовать</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       )}
-        { channel.name !== 'general' && channel.name !== 'random'
-        && (
-        <div x-placement="bottom-start" className="dropdown-menu" data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-start" style={dropdownMenuStyle}>
-          <button data-rr-ui-dropdown-item="" className="dropdown-item" type="button" tabIndex="0">Удалить</button>
-          <button data-rr-ui-dropdown-item="" className="dropdown-item" type="button" tabIndex="0">Переименовать</button>
-        </div>
-        )}
       </div>
     </li>
   ));
