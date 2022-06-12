@@ -1,10 +1,12 @@
 /* eslint jsx-a11y/control-has-associated-label: [0] */
+/* eslint max-len: [0] */
 
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 import { setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
+import { setModalRenameChannelStatus } from '../slices/modalsSlice.js';
 import { SocketContext } from '../context/SocketContextProvider.jsx';
 
 const Channels = () => {
@@ -16,6 +18,14 @@ const Channels = () => {
   const switchChannel = (channelName, channelId) => {
     dispatch(setActiveChannelId(channelId));
     dispatch(setActiveChannelName(channelName));
+  };
+
+  const openRenameNodal = (targetChannelName, targetChannelId) => {
+    dispatch(setModalRenameChannelStatus({
+      isOpen: true,
+      previousName: targetChannelName,
+      channelId: targetChannelId,
+    }));
   };
 
   const channelsList = chatChannels.map((channel) => (
@@ -42,7 +52,14 @@ const Channels = () => {
             >
               Удалить
             </Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Переименовать</Dropdown.Item>
+            <Dropdown.Item onClick={(e) => {
+              const targetChannelName = e.target.parentNode.parentNode.parentNode.firstChild.textContent.slice(1);
+              const targetChannelId = chatChannels.filter((el) => el.name === targetChannelName)[0].id;
+              openRenameNodal(targetChannelName, targetChannelId);
+            }}
+            >
+              Переименовать
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       )}

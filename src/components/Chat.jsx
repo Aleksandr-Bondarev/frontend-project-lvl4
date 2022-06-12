@@ -11,11 +11,13 @@ import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 import MessageSendingForm from './MessageSendingForm.jsx';
 import ModalAddChannel from './modals/ModalAddChannel.jsx';
+import ModalRenameChannel from './modals/ModalRenameChannel.jsx';
 
 function Chat() {
   const { getToken } = useContext(AuthContext);
   const currentChannelName = useSelector((state) => state.channels.activeChannelName);
   const addChannelIsOpen = useSelector((state) => state.modals.addChannel);
+  const renameChannelIsOpen = useSelector((state) => state.modals.renameChannel.isOpen);
   const dispatch = useDispatch();
 
   const initChat = async () => {
@@ -45,6 +47,7 @@ function Chat() {
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <ModalAddChannel status={addChannelIsOpen} />
+      <ModalRenameChannel status={renameChannelIsOpen} />
       <div className="row h-100 bg-white flex-md-row">
         <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
