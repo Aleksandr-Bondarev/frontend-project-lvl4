@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import signUp from '../images/signUp.jpeg';
 import { AuthContext } from '../context/AuthContext.jsx';
 
@@ -31,6 +32,7 @@ const handleConflict = () => {
 function SignUp() {
   const { toLogIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -41,15 +43,15 @@ function SignUp() {
 
     validationSchema: yup.object({
       username: yup.string()
-        .required('Обязательное поле')
-        .min(3, 'От 3 до 20 символов')
-        .max(20, 'От 3 до 20 символов'),
+        .required(t('errors.isRequired'))
+        .min(3, t('errors.lengthFromThreeToTwenty'))
+        .max(20, t('errors.lengthFromThreeToTwenty')),
       password: yup.string()
-        .required('Обязательное поле')
-        .min(6, 'Не менее 6 символов'),
+        .required(t('errors.isRequired'))
+        .min(6, t('errors.lessThanSixSymbols')),
       confirmPassword: yup.string()
-        .oneOf([yup.ref('password'), null], 'Пароли должны совпадать')
-        .required('Обязательное поле'),
+        .oneOf([yup.ref('password'), null], t('errors.passwordsDoNotMatch'))
+        .required(t('errors.isRequired')),
     }),
 
     onSubmit: async ({ username, password }) => {
@@ -84,11 +86,10 @@ function SignUp() {
                   formik.handleSubmit(formik.values);
                 }}
               >
-                <h1 className="text-center mb-4">Регистрация</h1>
+                <h1 className="text-center mb-4">{t('labels.registration')}</h1>
                 <div className="form-floating mb-3">
                   <input
                     autoFocus
-                    placeholder="От 3 до 20 символов"
                     name="username"
                     autoComplete="username"
                     required=""
@@ -101,11 +102,10 @@ function SignUp() {
                   {formik.errors.username && formik.touched.username ? (
                     <div className="invalid-tooltip" id="tooltipUsername">{formik.errors.username}</div>
                   ) : null}
-                  <label className="form-label" htmlFor="username">Имя пользователя</label>
+                  <label className="form-label" htmlFor="username">{t('labels.userName')}</label>
                 </div>
                 <div className="form-floating mb-3">
                   <input
-                    placeholder="Не менее 6 символов"
                     name="password"
                     aria-describedby="passwordHelpBlock"
                     required=""
@@ -120,11 +120,10 @@ function SignUp() {
                   {formik.errors.password && formik.touched.password ? (
                     <div className="invalid-tooltip" id="tooltipPassword">{formik.errors.password}</div>
                   ) : null}
-                  <label className="form-label" htmlFor="password">Пароль</label>
+                  <label className="form-label" htmlFor="password">{t('labels.password')}</label>
                 </div>
                 <div className="form-floating mb-4">
                   <input
-                    placeholder="Пароли должны совпадать"
                     name="confirmPassword"
                     required=""
                     autoComplete="new-password"
@@ -138,9 +137,9 @@ function SignUp() {
                   {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
                     <div className="invalid-tooltip" id="tooltipConfirmPassword">{formik.errors.confirmPassword}</div>
                   ) : null}
-                  <label className="form-label" htmlFor="confirmPassword">Подтвердите пароль</label>
+                  <label className="form-label" htmlFor="confirmPassword">{t('labels.confirmPassword')}</label>
                 </div>
-                <button type="submit" className="w-100 btn btn-outline-primary">Зарегистрироваться</button>
+                <button type="submit" className="w-100 btn btn-outline-primary">{t('labels.toSignUp')}</button>
               </form>
             </div>
           </div>

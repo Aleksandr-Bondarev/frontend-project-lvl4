@@ -1,8 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import loginImg from '../images/hexletLogin.jpeg';
 import LoginForm from './LoginForm.jsx';
 
 function Login() {
+  const { t } = useTranslation();
+
   return (
     <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100">
@@ -20,8 +23,11 @@ function Login() {
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
-                <span>Нет аккаунта? </span>
-                <a href="/signup">Регистрация</a>
+                <span>
+                  {t('labels.doNotHaveAccount')}
+                  {' '}
+                </span>
+                <a href="/signup">{t('labels.registration')}</a>
               </div>
             </div>
           </div>

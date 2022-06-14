@@ -5,11 +5,14 @@ import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Dropdown } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
 import { setModalRenameChannelStatus } from '../slices/modalsSlice.js';
 import { SocketContext } from '../context/SocketContextProvider.jsx';
 
 const Channels = () => {
+  const { t } = useTranslation();
+
   const chatChannels = useSelector((state) => state.channels.channels);
   const activeChannelName = useSelector((state) => state.channels.activeChannelName);
   const dispatch = useDispatch();
@@ -50,7 +53,7 @@ const Channels = () => {
               socket.emit('removeChannel', { id: channel.id });
             }}
             >
-              Удалить
+              {t('labels.toDelete')}
             </Dropdown.Item>
             <Dropdown.Item onClick={(e) => {
               const targetChannelName = e.target.parentNode.parentNode.parentNode.firstChild.textContent.slice(1);
@@ -58,7 +61,7 @@ const Channels = () => {
               openRenameNodal(targetChannelName, targetChannelId);
             }}
             >
-              Переименовать
+              {t('labels.toRename')}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

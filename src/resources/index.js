@@ -1,0 +1,50 @@
+const resources = {
+  ru: {
+    translation: {
+      errors: {
+        isRequired: 'Обязательное поле',
+        lengthFromThreeToTwenty: 'От 3 до 20 символов',
+        lessThanSixSymbols: 'Не менее 6 символов',
+        passwordsDoNotMatch: 'Пароли должны совпадать',
+        loginErrors: 'Неверные имя пользователя или пароль',
+      },
+      labels: {
+        channels: 'Каналы',
+        registration: 'Регистрация',
+        userName: 'Имя пользователя',
+        yourNickname: 'Ваш ник',
+        password: 'Пароль',
+        confirmPassword: 'Подтвердите пароль',
+        toSignUp: 'Зарегистрироваться',
+        toLogIn: 'Войти',
+        toLogOut: 'Выйти',
+        toDelete: 'Удалить',
+        toRename: 'Переименовать',
+        toSend: 'Отправить',
+        doNotHaveAccount: 'Нет аккаунта?',
+        pageNotFound: 'Страница не найдена',
+        butYouCanGo: 'Но вы можете перейти',
+        onTheMainPage: 'на главную страницу',
+        hexletChatName: 'Hexlet Chat',
+      },
+      messagesCount: {
+        0: 'сообщений',
+        1: 'сообщение',
+        2: 'сообщения',
+        3: 'сообщения',
+        4: 'сообщения',
+        5: 'сообщений',
+        6: 'сообщений',
+        7: 'сообщений',
+        8: 'сообщений',
+        9: 'сообщений',
+        11: 'сообщений',
+        12: 'сообщений',
+        13: 'сообщений',
+        14: 'сообщений',
+      },
+    },
+  },
+};
+
+export default resources;

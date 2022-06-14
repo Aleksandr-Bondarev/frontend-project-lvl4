@@ -3,6 +3,7 @@
 import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { setAlreadyExistingChannels, setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
 import { setModalAddChannelStatus } from '../slices/modalsSlice.js';
@@ -13,12 +14,26 @@ import MessageSendingForm from './MessageSendingForm.jsx';
 import ModalAddChannel from './modals/ModalAddChannel.jsx';
 import ModalRenameChannel from './modals/ModalRenameChannel.jsx';
 
+const getPlural = (num) => {
+  if (num < 15) return num;
+  if (String(num).slice(-2) < 15) return String(num).slice(-2);
+  return String(num).slice(-1);
+};
+
 function Chat() {
   const { getToken } = useContext(AuthContext);
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const currentChannelName = useSelector((state) => state.channels.activeChannelName);
+  const channelId = useSelector((state) => state.channels.activeChannelId);
   const addChannelIsOpen = useSelector((state) => state.modals.addChannel);
   const renameChannelIsOpen = useSelector((state) => state.modals.renameChannel.isOpen);
-  const dispatch = useDispatch();
+
+  const allChatMessages = useSelector((state) => state.messages.messages);
+  const messagesInCurrentChannel = allChatMessages
+    .filter((message) => message.channelId === channelId);
+  const countOfCurrentMessages = messagesInCurrentChannel.length;
+  const i18nPlurals = getPlural(countOfCurrentMessages);
 
   const initChat = async () => {
     try {
@@ -51,7 +66,7 @@ function Chat() {
       <div className="row h-100 bg-white flex-md-row">
         <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
-            <span>Каналы</span>
+            <span>{t('labels.channels')}</span>
             <button
               type="button"
               className="p-0 text-primary btn btn-group-vertical"
@@ -79,7 +94,11 @@ function Chat() {
                   {currentChannelName}
                 </b>
               </p>
-              <span className="text-muted">number of chat messages</span>
+              <span className="text-muted">
+                {countOfCurrentMessages}
+                {' '}
+                {t(`messagesCount.${i18nPlurals}`)}
+              </span>
             </div>
             <div id="messages-box" className="chat-messages overflow-auto px-5 ">
               <Messages />
