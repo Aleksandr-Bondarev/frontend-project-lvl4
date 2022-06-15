@@ -65,7 +65,8 @@ function ModalAddChannel(props) {
           e.preventDefault();
           checkUniqueNameOnSubmit(e, formik.values.name);
           formik.handleSubmit();
-        }}>
+        }}
+        >
           <Form.Control autoFocus name="name" id="name" className="mb-2 form-control" value={formik.values.newChannelName} onChange={formik.handleChange} />
           <label className="visually-hidden" htmlFor="name">Имя канала</label>
           <div className="invalid-feedback" />
