@@ -17,7 +17,6 @@ function ModalAddChannel(props) {
   const channelsInChat = useSelector((state) => state.channels.channels);
 
   const checkUniqueNameOnSubmit = (e, name) => {
-    console.log('eeeeeeeeeeeeeeeeeee', e.target);
     const sameNameChannel = channelsInChat.filter((channel) => channel.name === name);
     if (sameNameChannel.length !== 0) {
       const formControlNode = e.target.childNodes[0];
@@ -49,7 +48,7 @@ function ModalAddChannel(props) {
       animation={false}
     >
       <Modal.Header>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('labels.toAddChannel')}</Modal.Title>
         <button
           type="button"
           aria-label="Close"
@@ -78,9 +77,9 @@ function ModalAddChannel(props) {
                 dispatch(setModalAddChannelStatus(false));
               }}
             >
-              Отменить
+              {t('labels.toCancel')}
             </button>
-            <button type="submit" className="btn btn-primary">Отправить</button>
+            <button type="submit" className="btn btn-primary">{t('labels.toSend')}</button>
           </div>
         </Form>
       </Modal.Body>

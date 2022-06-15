@@ -22,6 +22,8 @@ const resources = {
         toDelete: 'Удалить',
         toRename: 'Переименовать',
         toSend: 'Отправить',
+        toCancel: 'Отменить',
+        toAddChannel: 'Добавить канал',
         doNotHaveAccount: 'Нет аккаунта?',
         pageNotFound: 'Страница не найдена',
         butYouCanGo: 'Но вы можете перейти',
