@@ -7,6 +7,7 @@ const resources = {
         lessThanSixSymbols: 'Не менее 6 символов',
         passwordsDoNotMatch: 'Пароли должны совпадать',
         loginErrors: 'Неверные имя пользователя или пароль',
+        shouldBeUnique: 'Должно быть уникальным',
       },
       labels: {
         channels: 'Каналы',

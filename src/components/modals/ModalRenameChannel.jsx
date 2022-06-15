@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
@@ -7,19 +8,20 @@ import { setModalRenameChannelStatus } from '../../slices/modalsSlice.js';
 
 function ModalRenameChannel(props) {
   const { status } = props;
+  const { t } = useTranslation();
   const nameOfRenamingChannel = useSelector((state) => state.modals.renameChannel.previousName);
   const idOfRenamingChannel = useSelector((state) => state.modals.renameChannel.channelId);
   const channelsInChat = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
   const socket = useContext(SocketContext);
 
-  const submitEventHandler = (e, name) => {
+  const checkUniqueNameOnSubmit = (e, name) => {
     e.preventDefault();
     const sameNameChannel = channelsInChat.filter((channel) => channel.name === name);
     if (sameNameChannel.length !== 0) {
       const formControlNode = e.target.childNodes[0];
       const invalidFeedbackContainer = e.target.childNodes[1];
-      invalidFeedbackContainer.textContent = 'Должно быть уникальным';
+      invalidFeedbackContainer.textContent = t('errors.shouldBeUnique');
       formControlNode.classList.add('is-invalid');
     }
   };
@@ -31,7 +33,6 @@ function ModalRenameChannel(props) {
     },
     onSubmit: async ({ newName }) => {
       const sameNameChannel = channelsInChat.filter((channel) => channel.name === newName);
-      console.log(sameNameChannel);
       if (sameNameChannel.length !== 0) return;
       await socket.emit('renameChannel', { id: idOfRenamingChannel, name: newName });
     },
@@ -51,7 +52,7 @@ function ModalRenameChannel(props) {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={(e) => {
-          submitEventHandler(e, formik.values.newName);
+          checkUniqueNameOnSubmit(e, formik.values.newName);
           formik.handleSubmit();
         }}
         >

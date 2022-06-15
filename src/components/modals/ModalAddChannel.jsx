@@ -1,8 +1,9 @@
 /* eslint jsx-a11y/label-has-associated-control: [0] */
 
 import React, { useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Modal, Form } from 'react-bootstrap';
 import { setModalAddChannelStatus } from '../../slices/modalsSlice.js';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
@@ -10,8 +11,21 @@ import { acknowledgeChannelCreating } from '../../acknowledgeCallbacks.js';
 
 function ModalAddChannel(props) {
   const { status } = props;
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const socket = useContext(SocketContext);
+  const channelsInChat = useSelector((state) => state.channels.channels);
+
+  const checkUniqueNameOnSubmit = (e, name) => {
+    console.log('eeeeeeeeeeeeeeeeeee', e.target);
+    const sameNameChannel = channelsInChat.filter((channel) => channel.name === name);
+    if (sameNameChannel.length !== 0) {
+      const formControlNode = e.target.childNodes[0];
+      const invalidFeedbackContainer = e.target.childNodes[2];
+      invalidFeedbackContainer.textContent = t('errors.shouldBeUnique');
+      formControlNode.classList.add('is-invalid');
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -19,6 +33,8 @@ function ModalAddChannel(props) {
     },
     onSubmit: async ({ name }, actions) => {
       const newChannelName = name;
+      const sameNameChannel = channelsInChat.filter((channel) => channel.name === name);
+      if (sameNameChannel.length !== 0) return;
       await socket.emit('newChannel', { name: newChannelName }, acknowledgeChannelCreating);
       dispatch(setModalAddChannelStatus(false));
       actions.resetForm();
@@ -45,7 +61,11 @@ function ModalAddChannel(props) {
         />
       </Modal.Header>
       <Modal.Body className="">
-        <Form onSubmit={formik.handleSubmit}>
+        <Form onSubmit={(e) => {
+          e.preventDefault();
+          checkUniqueNameOnSubmit(e, formik.values.name);
+          formik.handleSubmit();
+        }}>
           <Form.Control autoFocus name="name" id="name" className="mb-2 form-control" value={formik.values.newChannelName} onChange={formik.handleChange} />
           <label className="visually-hidden" htmlFor="name">Имя канала</label>
           <div className="invalid-feedback" />
