@@ -30,6 +30,11 @@ const resources = {
         onTheMainPage: 'на главную страницу',
         hexletChatName: 'Hexlet Chat',
       },
+      toasts: {
+        channelRemoved: 'Канал удалён',
+        channelCreated: 'Канал создан',
+        channelRenamed: 'Канал переименован',
+      },
       messagesCount: {
         0: 'сообщений',
         1: 'сообщение',

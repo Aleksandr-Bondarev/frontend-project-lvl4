@@ -4,6 +4,7 @@ import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import resources from './resources/index.js';
 import Navbar from './components/Navbar.jsx';
 import RoutesInit from './components/RoutesInit.jsx';
@@ -14,6 +15,7 @@ import { sendNewMessage, deleteChannelMessages } from './slices/messagesSlice.js
 import {
   addNewChannel, deleteChannel, setActiveChannelId, setActiveChannelName, changeChannelName,
 } from './slices/channelsSlice.js';
+import 'react-toastify/dist/ReactToastify.css';
 import store from './slices/index.js';
 
 const App = (socket) => {
@@ -61,6 +63,7 @@ const App = (socket) => {
           <SocketContextProvider socket={socket}>
             <AuthContextProvider>
               <div className="d-flex flex-column h-100">
+                <ToastContainer />
                 <Navbar />
                 <RoutesInit />
               </div>

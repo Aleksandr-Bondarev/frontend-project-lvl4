@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Modal, Form } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { setModalAddChannelStatus } from '../../slices/modalsSlice.js';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { acknowledgeChannelCreating } from '../../acknowledgeCallbacks.js';
@@ -37,6 +38,7 @@ function ModalAddChannel(props) {
       await socket.emit('newChannel', { name: newChannelName }, acknowledgeChannelCreating);
       dispatch(setModalAddChannelStatus(false));
       actions.resetForm();
+      toast.success(t('toasts.channelCreated'));
     },
   });
 
