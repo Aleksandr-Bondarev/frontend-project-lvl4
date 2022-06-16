@@ -1,9 +1,7 @@
-/* eslint no-unused-vars: [0] */
-
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { setModalDeleteChannelStatus } from '../../slices/modalsSlice.js';
@@ -43,6 +41,7 @@ function ModalDeleteChannel(props) {
             onClick={() => {
               socket.emit('removeChannel', { id: idOfDeletingChannel });
               dispatch(setModalDeleteChannelStatus(false));
+              toast.success(t('toasts.channelRemoved'));
             }}
           >
             {t('labels.toDelete')}
