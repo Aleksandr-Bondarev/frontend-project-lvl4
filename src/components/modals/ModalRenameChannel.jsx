@@ -1,6 +1,6 @@
 /* eslint jsx-a11y/label-has-associated-control: [0] */
 
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,11 +12,14 @@ import { setModalRenameChannelStatus } from '../../slices/modalsSlice.js';
 function ModalRenameChannel(props) {
   const { status } = props;
   const { t } = useTranslation();
+  const innerRef = useRef();
   const nameOfRenamingChannel = useSelector((state) => state.modals.renameChannel.previousName);
   const idOfRenamingChannel = useSelector((state) => state.modals.renameChannel.channelId);
   const channelsInChat = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
   const socket = useContext(SocketContext);
+
+  useEffect(() => innerRef.current && innerRef.current.focus());
 
   const checkUniqueNameOnSubmit = (e, name) => {
     e.preventDefault();
@@ -60,7 +63,7 @@ function ModalRenameChannel(props) {
           formik.handleSubmit();
         }}
         >
-          <Form.Control autoFocus className="mb-2" id="newName" value={formik.values.newName} onChange={formik.handleChange} />
+          <Form.Control autoFocus ref={innerRef} id="newName" className="mb-2 form-control" value={formik.values.newName} onChange={formik.handleChange} />
           <label className="visually-hidden" htmlFor="newName">Имя канала</label>
           <div className="invalid-feedback" />
           <div className="d-flex justify-content-end">
