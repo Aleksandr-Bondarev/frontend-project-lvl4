@@ -2,6 +2,7 @@
 
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const mode = process.env.NODE_ENV || 'development';
 
@@ -26,6 +27,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
+    new Dotenv(),
   ],
   module: {
     rules: [
@@ -44,7 +46,7 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.(css|scss)$/i,
         use: [
           { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader' },
