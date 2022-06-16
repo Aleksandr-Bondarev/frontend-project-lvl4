@@ -9,6 +9,10 @@ const initialState = {
     previousName: '',
     channelId: null,
   },
+  deleteChannel: {
+    isOpen: false,
+    channelId: null,
+  },
 };
 
 const modalsSlice = createSlice({
@@ -23,9 +27,17 @@ const modalsSlice = createSlice({
       state.renameChannel.previousName = action.payload.previousName;
       state.renameChannel.channelId = action.payload.channelId;
     },
+    setModalDeleteChannelStatus: (state, action) => {
+      state.deleteChannel.isOpen = action.payload.isOpen;
+      state.deleteChannel.channelId = action.payload.channelId;
+    },
   },
 });
 
-export const { setModalAddChannelStatus, setModalRenameChannelStatus } = modalsSlice.actions;
+export const { 
+  setModalAddChannelStatus,
+  setModalRenameChannelStatus,
+  setModalDeleteChannelStatus,
+} = modalsSlice.actions;
 
 export default modalsSlice.reducer;
