@@ -13,6 +13,7 @@ import Messages from './Messages.jsx';
 import MessageSendingForm from './MessageSendingForm.jsx';
 import ModalAddChannel from './modals/ModalAddChannel.jsx';
 import ModalRenameChannel from './modals/ModalRenameChannel.jsx';
+import ModalDeleteChannel from './modals/ModalDeleteChannel.jsx';
 
 const getPlural = (num) => {
   if (num < 15) return num;
@@ -28,6 +29,7 @@ function Chat() {
   const channelId = useSelector((state) => state.channels.activeChannelId);
   const addChannelIsOpen = useSelector((state) => state.modals.addChannel);
   const renameChannelIsOpen = useSelector((state) => state.modals.renameChannel.isOpen);
+  const deleteChannelIsOpen = useSelector((state) => state.modals.deleteChannel.isOpen);
 
   const allChatMessages = useSelector((state) => state.messages.messages);
   const messagesInCurrentChannel = allChatMessages
@@ -63,6 +65,7 @@ function Chat() {
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <ModalAddChannel status={addChannelIsOpen} />
       <ModalRenameChannel status={renameChannelIsOpen} />
+      <ModalDeleteChannel status={deleteChannelIsOpen} />
       <div className="row h-100 bg-white flex-md-row">
         <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <div className="d-flex justify-content-between mb-2 ps-4 pe-2">

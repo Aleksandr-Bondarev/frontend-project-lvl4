@@ -34,7 +34,7 @@ const modalsSlice = createSlice({
   },
 });
 
-export const { 
+export const {
   setModalAddChannelStatus,
   setModalRenameChannelStatus,
   setModalDeleteChannelStatus,

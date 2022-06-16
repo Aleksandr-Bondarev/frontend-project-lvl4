@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/label-has-associated-control: [0] */
+
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +45,7 @@ function ModalRenameChannel(props) {
   return (
     <Modal centered show={status} onHide={() => dispatch(setModalRenameChannelStatus(false))}>
       <Modal.Header>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('labels.toRenameChannel')}</Modal.Title>
         <Button
           aria-label="Close"
           className="btn btn-close"
@@ -58,7 +60,8 @@ function ModalRenameChannel(props) {
           formik.handleSubmit();
         }}
         >
-          <Form.Control id="newName" value={formik.values.newName} onChange={formik.handleChange} />
+          <Form.Control autoFocus className="mb-2" id="newName" value={formik.values.newName} onChange={formik.handleChange} />
+          <label className="visually-hidden" htmlFor="newName">Имя канала</label>
           <div className="invalid-feedback" />
           <div className="d-flex justify-content-end">
             <Button
@@ -67,9 +70,9 @@ function ModalRenameChannel(props) {
                 dispatch(setModalRenameChannelStatus(false));
               }}
             >
-              Отменить
+              {t('labels.toCancel')}
             </Button>
-            <button type="submit" className="btn btn-primary">Отправить</button>
+            <Button type="submit" className="btn btn-primary">{t('labels.toSend')}</Button>
           </div>
         </Form>
       </Modal.Body>

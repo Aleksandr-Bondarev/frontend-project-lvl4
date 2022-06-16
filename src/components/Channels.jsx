@@ -1,14 +1,13 @@
 /* eslint jsx-a11y/control-has-associated-label: [0] */
 /* eslint max-len: [0] */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
-import { setModalRenameChannelStatus } from '../slices/modalsSlice.js';
-import { SocketContext } from '../context/SocketContextProvider.jsx';
+import { setModalRenameChannelStatus, setModalDeleteChannelStatus } from '../slices/modalsSlice.js';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -16,7 +15,6 @@ const Channels = () => {
   const chatChannels = useSelector((state) => state.channels.channels);
   const activeChannelName = useSelector((state) => state.channels.activeChannelName);
   const dispatch = useDispatch();
-  const socket = useContext(SocketContext);
 
   const switchChannel = (channelName, channelId) => {
     dispatch(setActiveChannelId(channelId));
@@ -27,6 +25,13 @@ const Channels = () => {
     dispatch(setModalRenameChannelStatus({
       isOpen: true,
       previousName: targetChannelName,
+      channelId: targetChannelId,
+    }));
+  };
+
+  const openDeleteModal = (targetChannelId) => {
+    dispatch(setModalDeleteChannelStatus({
+      isOpen: true,
       channelId: targetChannelId,
     }));
   };
@@ -50,15 +55,13 @@ const Channels = () => {
 
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => {
-              socket.emit('removeChannel', { id: channel.id });
+              openDeleteModal(channel.id);
             }}
             >
               {t('labels.toDelete')}
             </Dropdown.Item>
-            <Dropdown.Item onClick={(e) => {
-              const targetChannelName = e.target.parentNode.parentNode.parentNode.firstChild.textContent.slice(1);
-              const targetChannelId = chatChannels.filter((el) => el.name === targetChannelName)[0].id;
-              openRenameNodal(targetChannelName, targetChannelId);
+            <Dropdown.Item onClick={() => {
+              openRenameNodal(channel.name, channel.id);
             }}
             >
               {t('labels.toRename')}
