@@ -4,6 +4,7 @@ import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { setAlreadyExistingChannels, setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
 import { setModalAddChannelStatus } from '../slices/modalsSlice.js';
@@ -53,7 +54,7 @@ function Chat() {
       dispatch(setAlreadyExistingChannels(channels));
       dispatch(setActiveChannelId(currentChannelId));
     } catch {
-      console.log('error!');
+      toast.error(t('errors.connectionFailed'));
     }
   };
 

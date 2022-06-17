@@ -5,9 +5,9 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { setModalRenameChannelStatus } from '../../slices/modalsSlice.js';
+import { acknowlodgeRenameChannel } from '../../acknowledgeCallbacks.js';
 
 function ModalRenameChannel(props) {
   const { status } = props;
@@ -40,8 +40,7 @@ function ModalRenameChannel(props) {
     onSubmit: async ({ newName }) => {
       const sameNameChannel = channelsInChat.filter((channel) => channel.name === newName);
       if (sameNameChannel.length !== 0) return;
-      await socket.emit('renameChannel', { id: idOfRenamingChannel, name: newName });
-      toast.success(t('toasts.channelRenamed'));
+      await socket.emit('renameChannel', { id: idOfRenamingChannel, name: newName }, acknowlodgeRenameChannel);
     },
   });
 

@@ -1,10 +1,12 @@
 /* eslint no-unused-vars: [0] */
 /* eslint jsx-a11y/label-has-associated-control: [0] */
+/* eslint functional/no-let: [0] */
 
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext.jsx';
 
@@ -45,6 +47,16 @@ function LoginForm() {
       } catch (e) {
         if (e.response.data.message === 'Unauthorized') {
           handleUnauthorized();
+        } else {
+          let status;
+
+          setTimeout(() => {
+            if (status !== 200) {
+              toast.error(t('errors.connectionFailed'));
+            }
+          }, 2000);
+
+          status = e.response.status;
         }
       }
     },

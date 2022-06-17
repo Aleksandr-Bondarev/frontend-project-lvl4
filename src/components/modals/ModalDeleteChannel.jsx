@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { setModalDeleteChannelStatus } from '../../slices/modalsSlice.js';
+import { acknowlodgeDeleteChannel } from '../../acknowledgeCallbacks.js';
 
 function ModalDeleteChannel(props) {
   const { status } = props;
@@ -39,9 +39,7 @@ function ModalDeleteChannel(props) {
           <Button
             className="btn btn-danger"
             onClick={() => {
-              socket.emit('removeChannel', { id: idOfDeletingChannel });
-              dispatch(setModalDeleteChannelStatus(false));
-              toast.success(t('toasts.channelRemoved'));
+              socket.emit('removeChannel', { id: idOfDeletingChannel }, acknowlodgeDeleteChannel);
             }}
           >
             {t('labels.toDelete')}

@@ -1,11 +1,13 @@
 /* eslint jsx-a11y/label-has-associated-control: [0] */
 /* eslint jsx-a11y/no-autofocus: [0] */
+/* eslint functional/no-let: [0] */
 
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import signUp from '../images/signUp.jpeg';
@@ -65,6 +67,16 @@ function SignUp() {
       } catch (e) {
         if (e.response.data.message === 'Conflict') {
           handleConflict();
+        } else {
+          let status;
+
+          setTimeout(() => {
+            if (status !== 200) {
+              toast.error(t('errors.connectionFailed'));
+            }
+          }, 2000);
+
+          status = e.response.status;
         }
       }
     },

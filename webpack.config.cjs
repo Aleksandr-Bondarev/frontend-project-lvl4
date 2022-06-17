@@ -26,8 +26,8 @@ module.exports = {
     historyApiFallback: true,
   },
   plugins: [
-    new MiniCssExtractPlugin(),
     new Dotenv(),
+    new MiniCssExtractPlugin(),
   ],
   module: {
     rules: [

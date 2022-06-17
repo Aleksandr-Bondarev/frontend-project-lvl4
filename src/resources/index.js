@@ -8,6 +8,7 @@ const resources = {
         passwordsDoNotMatch: 'Пароли должны совпадать',
         loginErrors: 'Неверные имя пользователя или пароль',
         shouldBeUnique: 'Должно быть уникальным',
+        connectionFailed: 'Ошибка соединения',
       },
       labels: {
         channels: 'Каналы',

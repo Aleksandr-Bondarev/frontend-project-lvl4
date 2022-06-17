@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { SocketContext } from '../context/SocketContextProvider.jsx';
-import { acknowlodgeMessageSending } from '../acknowledgeCallbacks.js';
+import { acknowlodgeHandleError } from '../acknowledgeCallbacks.js';
 
 function MessageSendingForm() {
   const currentChannelId = useSelector((state) => state.channels.activeChannelId);
@@ -21,7 +21,7 @@ function MessageSendingForm() {
       message: '',
     },
     onSubmit: ({ message }, actions) => {
-      socket.emit('newMessage', { text: message, channelId: currentChannelId, username: currentUserName }, acknowlodgeMessageSending);
+      socket.emit('newMessage', { text: message, channelId: currentChannelId, username: currentUserName }, acknowlodgeHandleError);
       actions.resetForm();
     },
   });
