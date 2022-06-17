@@ -32,6 +32,7 @@ const resources = {
         pageNotFound: 'Страница не найдена',
         butYouCanGo: 'Но вы можете перейти',
         onTheMainPage: 'на главную страницу',
+        channelControl: 'Управление каналом',
         hexletChatName: 'Hexlet Chat',
       },
       toasts: {

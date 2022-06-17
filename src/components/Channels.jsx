@@ -51,8 +51,9 @@ const Channels = () => {
         { channel.name !== 'general' && channel.name !== 'random'
       && (
         <Dropdown>
-          <Dropdown.Toggle variant="Secondary" id="dropdown-basic" />
-
+          <Dropdown.Toggle variant="Secondary" id="dropdown-basic">
+            <span className="visually-hidden">{t('labels.channelControl')}</span>
+          </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => {
               openDeleteModal(channel.id);
