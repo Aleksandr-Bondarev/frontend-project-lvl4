@@ -32,7 +32,7 @@ const App = (socket) => {
     });
 
   const rollbarConfig = {
-    accessToken: '36b31a7d1b694b0697eff2678a405410',
+    accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
     captureUncaught: true,
     captureUnhandledRejections: true,
     payload: {
