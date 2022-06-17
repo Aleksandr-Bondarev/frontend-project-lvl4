@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Modal, Form } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import { setModalAddChannelStatus } from '../../slices/modalsSlice.js';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { acknowledgeChannelCreating } from '../../acknowledgeCallbacks.js';
@@ -16,6 +17,7 @@ function ModalAddChannel(props) {
   const dispatch = useDispatch();
   const socket = useContext(SocketContext);
   const channelsInChat = useSelector((state) => state.channels.channels);
+  filter.add(filter.getDictionary('ru'));
 
   const checkUniqueNameOnSubmit = (e, name) => {
     const sameNameChannel = channelsInChat.filter((channel) => channel.name === name);
@@ -35,7 +37,7 @@ function ModalAddChannel(props) {
       const newChannelName = name;
       const sameNameChannel = channelsInChat.filter((channel) => channel.name === name);
       if (sameNameChannel.length !== 0) return;
-      await socket.emit('newChannel', { name: newChannelName }, acknowledgeChannelCreating);
+      await socket.emit('newChannel', { name: filter.clean(newChannelName) }, acknowledgeChannelCreating);
       dispatch(setModalAddChannelStatus(false));
       actions.resetForm();
       toast.success(t('toasts.channelCreated'));

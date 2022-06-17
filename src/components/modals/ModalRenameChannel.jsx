@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
+import filter from 'leo-profanity';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { setModalRenameChannelStatus } from '../../slices/modalsSlice.js';
 import { acknowlodgeRenameChannel } from '../../acknowledgeCallbacks.js';
@@ -18,6 +19,7 @@ function ModalRenameChannel(props) {
   const channelsInChat = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
   const socket = useContext(SocketContext);
+  filter.add(filter.getDictionary('ru'));
 
   useEffect(() => innerRef.current && innerRef.current.focus());
 
@@ -40,7 +42,7 @@ function ModalRenameChannel(props) {
     onSubmit: async ({ newName }) => {
       const sameNameChannel = channelsInChat.filter((channel) => channel.name === newName);
       if (sameNameChannel.length !== 0) return;
-      await socket.emit('renameChannel', { id: idOfRenamingChannel, name: newName }, acknowlodgeRenameChannel);
+      await socket.emit('renameChannel', { id: idOfRenamingChannel, name: filter.clean(newName) }, acknowlodgeRenameChannel);
     },
   });
 

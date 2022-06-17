@@ -5,6 +5,7 @@ import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { SocketContext } from '../context/SocketContextProvider.jsx';
 import { acknowlodgeHandleError } from '../acknowledgeCallbacks.js';
@@ -15,13 +16,14 @@ function MessageSendingForm() {
   const { getUser } = useContext(AuthContext);
   const { t } = useTranslation();
   const currentUserName = getUser();
+  filter.add(filter.getDictionary('ru'));
 
   const formik = useFormik({
     initialValues: {
       message: '',
     },
     onSubmit: ({ message }, actions) => {
-      socket.emit('newMessage', { text: message, channelId: currentChannelId, username: currentUserName }, acknowlodgeHandleError);
+      socket.emit('newMessage', { text: filter.clean(message), channelId: currentChannelId, username: currentUserName }, acknowlodgeHandleError);
       actions.resetForm();
     },
   });
