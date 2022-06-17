@@ -1,4 +1,3 @@
-/* eslint jsx-a11y/control-has-associated-label: [0] */
 /* eslint max-len: [0] */
 
 import React from 'react';
@@ -46,6 +45,7 @@ const Channels = () => {
           onClick={() => switchChannel(channel.name, channel.id)}
         >
           <span className="me-1">#</span>
+          {' '}
           {channel.name}
         </button>
         { channel.name !== 'general' && channel.name !== 'random'

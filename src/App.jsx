@@ -39,7 +39,7 @@ const App = (socket) => {
       environment: 'production',
     },
   };
-
+  console.log('ACCCCCCESSSSSSSSSS TOOOOOOOOOOOOOOKEEEEEEEEEEEEEEN', process.env.ROLLBAR_ACCESS_TOKEN);
   socket.on('newMessage', (message) => {
     store.dispatch(sendNewMessage({ message }));
   });
