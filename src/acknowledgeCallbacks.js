@@ -6,7 +6,7 @@ import store from './slices/index.js';
 import { setActiveChannelId, setActiveChannelName } from './slices/channelsSlice.js';
 import { setModalDeleteChannelStatus } from './slices/modalsSlice.js';
 
-export const acknowlodgeHandleError = (response) => {
+export const acknowlodgeMessageSending = (response) => {
   let status;
 
   setTimeout(() => {

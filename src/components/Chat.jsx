@@ -1,9 +1,8 @@
-/* eslint no-unused-vars: [0] */
-
 import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useRollbar } from '@rollbar/react';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { setAlreadyExistingChannels, setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
@@ -26,6 +25,7 @@ function Chat() {
   const { getToken } = useContext(AuthContext);
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const rollbar = useRollbar();
   const currentChannelName = useSelector((state) => state.channels.activeChannelName);
   const channelId = useSelector((state) => state.channels.activeChannelId);
   const addChannelIsOpen = useSelector((state) => state.modals.addChannel);
@@ -53,12 +53,13 @@ function Chat() {
       dispatch(importExistingMessages(messages));
       dispatch(setAlreadyExistingChannels(channels));
       dispatch(setActiveChannelId(currentChannelId));
-    } catch {
+    } catch (e) {
       toast.error(t('errors.connectionFailed'));
+      rollbar.error(e);
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     initChat();
   }, []);
 

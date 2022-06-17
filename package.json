@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Aleksandr-Bondarev/frontend-project-lvl3#readme",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
+    "@rollbar/react": "^0.11.1",
     "autoprefixer": "10.4.5",
     "axios": "^0.27.2",
     "bootstrap": "^5.1.3",

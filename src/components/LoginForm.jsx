@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: [0] */
 /* eslint jsx-a11y/label-has-associated-control: [0] */
 /* eslint functional/no-let: [0] */
 
@@ -8,11 +7,13 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useRollbar } from '@rollbar/react';
 import { AuthContext } from '../context/AuthContext.jsx';
 
 function LoginForm() {
   const { t } = useTranslation();
   const { toLogIn } = useContext(AuthContext);
+  const rollbar = useRollbar();
 
   const handleUnauthorized = () => {
     const usernameInput = document.querySelector('#username');
@@ -47,6 +48,7 @@ function LoginForm() {
       } catch (e) {
         if (e.response.data.message === 'Unauthorized') {
           handleUnauthorized();
+          rollbar.error(e);
         } else {
           let status;
 
@@ -57,6 +59,8 @@ function LoginForm() {
           }, 2000);
 
           status = e.response.status;
+
+          rollbar.error(e);
         }
       }
     },
