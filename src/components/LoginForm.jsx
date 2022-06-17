@@ -1,4 +1,3 @@
-/* eslint jsx-a11y/label-has-associated-control: [0] */
 /* eslint functional/no-let: [0] */
 
 import React, { useContext } from 'react';
@@ -43,7 +42,6 @@ function LoginForm() {
     onSubmit: async (values) => {
       try {
         const response = await axios.post('http://localhost:5000/api/v1/login', values);
-        console.log('response', response);
         toLogIn(response.data);
       } catch (e) {
         if (e.response.data.message === 'Unauthorized') {

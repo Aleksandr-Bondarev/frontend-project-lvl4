@@ -47,7 +47,6 @@ function Chat() {
           Authorization: `Bearer ${getToken()}`,
         },
       });
-      console.log('RESPONSE', response);
       const { channels, messages, currentChannelId } = response.data;
       dispatch(setActiveChannelName(channels[currentChannelId - 1].name));
       dispatch(importExistingMessages(messages));
