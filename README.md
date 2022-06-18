@@ -2,7 +2,7 @@
 [![Actions Status](https://github.com/Aleksandr-Bondarev/frontend-project-lvl4/workflows/hexlet-check/badge.svg)](https://github.com/Aleksandr-Bondarev/frontend-project-lvl4/actions)
 [![NodeCI](https://github.com/Aleksandr-Bondarev/frontend-project-lvl4/actions/workflows/NodeCI.yml/badge.svg)](https://github.com/Aleksandr-Bondarev/frontend-project-lvl4/actions/workflows/NodeCI.yml)
 
-# [Chat (Slack like)]((https://alex-bond-slack.herokuapp.com/))
+# [Chat (Slack like)](https://alex-bond-slack.herokuapp.com/)
 ### Simple real-time chat application. 
 
 ## Features:
@@ -15,12 +15,12 @@
     
 ## Installation:
 
-    ```
+    ```sh
     $ make install
     ```
 ## Run App:
 
-    ```
+    ```sh
     $ make start
     then open http://localhost:5000/
     ```
