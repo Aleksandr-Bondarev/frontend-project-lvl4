@@ -16,13 +16,13 @@ export function AuthContextProvider({ children }) {
 
   const [authentificationStatus, setAuthentificationStatus] = useState(isAuthorized());
 
-  const toLogIn = ({ token, username }) => {
+  const login = ({ token, username }) => {
     localStorage.setItem('token', token);
     localStorage.setItem('username', username);
     setAuthentificationStatus(true);
   };
 
-  const toLogOut = () => {
+  const logOut = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
     setAuthentificationStatus(false);
@@ -33,8 +33,8 @@ export function AuthContextProvider({ children }) {
       getUser,
       getToken,
       isAuthorized,
-      toLogIn,
-      toLogOut,
+      login,
+      logOut,
       authentificationStatus,
     }}
     >

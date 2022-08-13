@@ -22,7 +22,7 @@ const getPlural = (num) => {
 };
 
 function Chat() {
-  const { getToken } = useContext(AuthContext);
+  const { getToken, logOut } = useContext(AuthContext);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const rollbar = useRollbar();
@@ -53,6 +53,10 @@ function Chat() {
       dispatch(setAlreadyExistingChannels(channels));
       dispatch(setActiveChannelId(currentChannelId));
     } catch (e) {
+      if (e.response.status === 401) {
+        logOut();
+        return;
+      }
       toast.error(t('errors.connectionFailed'));
       rollbar.error(e);
     }

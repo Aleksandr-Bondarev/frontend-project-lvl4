@@ -11,7 +11,7 @@ import { AuthContext } from '../context/AuthContext.jsx';
 
 function LoginForm() {
   const { t } = useTranslation();
-  const { toLogIn } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const rollbar = useRollbar();
 
   const handleUnauthorized = () => {
@@ -42,7 +42,7 @@ function LoginForm() {
     onSubmit: async (values) => {
       try {
         const response = await axios.post('http://localhost:5000/api/v1/login', values);
-        toLogIn(response.data);
+        login(response.data);
       } catch (e) {
         if (e.response.data.message === 'Unauthorized') {
           handleUnauthorized();
@@ -72,7 +72,7 @@ function LoginForm() {
         formik.handleSubmit(formik.values);
       }}
     >
-      <h1 className="text-center mb-4">{t('labels.toLogIn')}</h1>
+      <h1 className="text-center mb-4">{t('labels.login')}</h1>
       <div className="form-floating mb-3">
         <input
           name="username"
@@ -106,7 +106,7 @@ function LoginForm() {
         type="submit"
         className="w-100 mb-3 btn btn-outline-primary"
       >
-        {t('labels.toLogIn')}
+        {t('labels.login')}
       </button>
     </form>
   );

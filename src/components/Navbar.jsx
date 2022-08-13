@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext.jsx';
 
 function Navbar() {
-  const { toLogOut, isAuthorized } = useContext(AuthContext);
+  const { logOut, isAuthorized } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const clickButton = () => {
-    toLogOut();
+    logOut();
     navigate('/');
   };
 

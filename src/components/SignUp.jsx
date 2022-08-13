@@ -32,7 +32,7 @@ const handleConflict = () => {
 };
 
 function SignUp() {
-  const { toLogIn } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -62,7 +62,7 @@ function SignUp() {
           username,
           password,
         });
-        toLogIn(response.data);
+        login(response.data);
         navigate('/');
       } catch (e) {
         if (e.response.data.message === 'Conflict') {
