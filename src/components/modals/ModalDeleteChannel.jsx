@@ -10,7 +10,7 @@ function ModalDeleteChannel(props) {
   const { status } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const socket = useContext(SocketContext);
+  const { removeChannel } = useContext(SocketContext);
   const idOfDeletingChannel = useSelector((state) => state.modals.deleteChannel.channelId);
 
   return (
@@ -39,7 +39,7 @@ function ModalDeleteChannel(props) {
           <Button
             className="btn btn-danger"
             onClick={() => {
-              socket.emit('removeChannel', { id: idOfDeletingChannel }, acknowlodgeDeleteChannel);
+              removeChannel(idOfDeletingChannel, acknowlodgeDeleteChannel);
             }}
           >
             {t('labels.toDelete')}

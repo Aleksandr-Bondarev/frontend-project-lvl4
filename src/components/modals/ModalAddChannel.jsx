@@ -15,7 +15,7 @@ function ModalAddChannel(props) {
   const { status } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const socket = useContext(SocketContext);
+  const { addChannel } = useContext(SocketContext);
   const channelsInChat = useSelector((state) => state.channels.channels);
   filter.add(filter.getDictionary('ru'));
 
@@ -37,7 +37,7 @@ function ModalAddChannel(props) {
       const newChannelName = name;
       const sameNameChannel = channelsInChat.filter((channel) => channel.name === name);
       if (sameNameChannel.length !== 0) return;
-      await socket.emit('newChannel', { name: filter.clean(newChannelName) }, acknowledgeChannelCreating);
+      await addChannel({ name: filter.clean(newChannelName) }, acknowledgeChannelCreating);
       dispatch(setModalAddChannelStatus(false));
       actions.resetForm();
       toast.success(t('toasts.channelCreated'));

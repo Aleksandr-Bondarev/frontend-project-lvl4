@@ -18,7 +18,7 @@ function ModalRenameChannel(props) {
   const idOfRenamingChannel = useSelector((state) => state.modals.renameChannel.channelId);
   const channelsInChat = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
-  const socket = useContext(SocketContext);
+  const { renameChannel } = useContext(SocketContext);
   filter.add(filter.getDictionary('ru'));
 
   useEffect(() => innerRef.current && innerRef.current.focus());
@@ -42,7 +42,7 @@ function ModalRenameChannel(props) {
     onSubmit: async ({ newName }) => {
       const sameNameChannel = channelsInChat.filter((channel) => channel.name === newName);
       if (sameNameChannel.length !== 0) return;
-      await socket.emit('renameChannel', { id: idOfRenamingChannel, name: filter.clean(newName) }, acknowlodgeRenameChannel);
+      await renameChannel(idOfRenamingChannel, filter.clean(newName), acknowlodgeRenameChannel);
     },
   });
 
