@@ -30,7 +30,6 @@ const App = (socket) => {
         useSuspense: false,
       },
     });
-  console.log('i18n', i18n);
   const rollbarConfig = {
     accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
     captureUncaught: true,
