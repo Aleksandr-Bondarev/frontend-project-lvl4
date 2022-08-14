@@ -7,23 +7,23 @@
 
 ## Features:
 
-- Instant messaging
-- Two default chat channels (#general & #random)
-- Custom chat channels can be deleted or renamed
-- Error or success notifications by [react-toastify](https://www.npmjs.com/package/react-toastify)
-- Profanity filter by [leo-profanity](https://www.npmjs.com/package/leo-profanity)
+    - Instant messaging
+    - Two default chat channels (#general & #random)
+    - Custom chat channels can be deleted or renamed
+    - Error or success notifications by [react-toastify](https://www.npmjs.com/package/react-toastify)
+    - Profanity filter by [leo-profanity](https://www.npmjs.com/package/leo-profanity)
     
 ## Installation:
 
-```sh
-$ make install
-```
+    ```sh
+    $ make install
+    ```
 ## Run App:
 
-```sh
-$ make start
-then open http://localhost:5000/
-```
+    ```sh
+    $ make start
+    then open http://localhost:5000/
+    ```
 ## App Demo:
 
 [Deployment of app to Heroku](https://alex-bond-slack.herokuapp.com/)
