@@ -5,11 +5,9 @@ import { AuthContext } from '../context/AuthContext.jsx';
 
 function Navbar() {
   const { logOut, isAuthorized } = useContext(AuthContext);
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const clickButton = () => {
     logOut();
-    navigate('/');
   };
 
   return (

@@ -1,10 +1,13 @@
 /* eslint react/jsx-no-constructed-context-values: [0] */
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = React.createContext();
 
 export function AuthContextProvider({ children }) {
+  const navigate = useNavigate();
+
   const getUser = () => localStorage.getItem('username');
 
   const getToken = () => localStorage.getItem('token');
@@ -26,6 +29,7 @@ export function AuthContextProvider({ children }) {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
     setAuthentificationStatus(false);
+    navigate('/');
   };
 
   return (
