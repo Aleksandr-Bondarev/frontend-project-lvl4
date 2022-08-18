@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext.jsx';
 import Login from './Login.jsx';
@@ -7,9 +6,8 @@ import NotFound from './NotFound.jsx';
 import SignUp from './SignUp.jsx';
 import Chat from './Chat.jsx';
 
-function App() {
+function RoutesInit() {
   const { authentificationStatus } = useContext(AuthContext);
-  const navigate = useNavigate();
   return (
     <Routes>
       <Route path="/" element={authentificationStatus ? <Chat /> : <Navigate to="login" replace={true} />} />
@@ -20,4 +18,4 @@ function App() {
   );
 }
 
-export default App;
+export default RoutesInit;
