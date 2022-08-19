@@ -1,7 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint max-len: [0] */
 
-import { createSlice } from '@reduxjs/toolkit';
+import { createAction, createSlice } from '@reduxjs/toolkit';
+
+export const switchChannel = createAction('switchChannel');
 
 const initialState = {
   channels: [],
@@ -16,14 +18,6 @@ const channelsSlice = createSlice({
     setAlreadyExistingChannels: (state, action) => {
       state.channels = action.payload;
     },
-    setActiveChannelId: (state, action) => {
-      const id = action.payload;
-      state.activeChannelId = id;
-    },
-    setActiveChannelName: (state, action) => {
-      const name = action.payload;
-      state.activeChannelName = name;
-    },
     addNewChannel: (state, action) => {
       state.channels.push(action.payload);
     },
@@ -37,12 +31,19 @@ const channelsSlice = createSlice({
       channelToChange.name = name;
     },
   },
+  extraReducers: (builder) => {
+    builder
+    .addCase(switchChannel, (state, action) => {
+      const { name } = action.payload;
+      const { id } = action.payload;
+      state.activeChannelId = id;
+      state.activeChannelName = name;
+    })
+  }
 });
 
 export const {
   setAlreadyExistingChannels,
-  setActiveChannelId,
-  setActiveChannelName,
   addNewChannel,
   deleteChannel,
   changeChannelName,

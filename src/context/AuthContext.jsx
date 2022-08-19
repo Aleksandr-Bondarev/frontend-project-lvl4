@@ -23,6 +23,7 @@ export function AuthContextProvider({ children }) {
     localStorage.setItem('token', token);
     localStorage.setItem('username', username);
     setAuthentificationStatus(true);
+    navigate('/');
   };
 
   const logOut = () => {

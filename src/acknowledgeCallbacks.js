@@ -3,7 +3,7 @@
 import { toast } from 'react-toastify';
 import i18n from 'i18next';
 import store from './slices/index.js';
-import { setActiveChannelId, setActiveChannelName } from './slices/channelsSlice.js';
+import { switchChannel } from './slices/channelsSlice.js';
 import { setModalDeleteChannelStatus } from './slices/modalsSlice.js';
 
 export const acknowlodgeMessageSending = (response) => {
@@ -28,8 +28,8 @@ export const acknowledgeChannelCreating = (response) => {
 
   status = response.status;
   if (status === 'ok') {
-    store.dispatch(setActiveChannelId(response.data.id));
-    store.dispatch(setActiveChannelName(response.data.name));
+    const { name, id } = response.data;
+    store.dispatch(switchChannel({ name, id }));
   }
 };
 

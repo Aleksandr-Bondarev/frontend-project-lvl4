@@ -3,10 +3,10 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext.jsx';
-import { setAlreadyExistingChannels, setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
+import { switchChannel } from '../slices/channelsSlice.js';
+import { setAlreadyExistingChannels } from '../slices/channelsSlice.js';
 import { setModalAddChannelStatus } from '../slices/modalsSlice.js';
 import { importExistingMessages } from '../slices/messagesSlice.js';
 import Channels from './Channels.jsx';
@@ -47,10 +47,9 @@ function Chat() {
         },
       });
       const { channels, messages, currentChannelId } = response.data;
-      dispatch(setActiveChannelName(channels[currentChannelId - 1].name));
+      dispatch(switchChannel({ name: channels[currentChannelId - 1].name, id: currentChannelId}));
       dispatch(importExistingMessages(messages));
       dispatch(setAlreadyExistingChannels(channels));
-      dispatch(setActiveChannelId(currentChannelId));
     } catch (e) {
       if (e.response.status === 401) {
         logOut();

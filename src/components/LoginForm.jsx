@@ -43,6 +43,8 @@ function LoginForm() {
       try {
         const response = await axios.post('http://localhost:5000/api/v1/login', values);
         login(response.data);
+        console.log('from login');
+        console.log(response.data);
       } catch (e) {
         if (e.response.data.message === 'Unauthorized') {
           handleUnauthorized();

@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
+import { switchChannel } from '../slices/channelsSlice.js';
+// import { setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
 import { setModalRenameChannelStatus, setModalDeleteChannelStatus } from '../slices/modalsSlice.js';
 
 const Channels = () => {
@@ -14,11 +15,6 @@ const Channels = () => {
   const chatChannels = useSelector((state) => state.channels.channels);
   const activeChannelName = useSelector((state) => state.channels.activeChannelName);
   const dispatch = useDispatch();
-
-  const switchChannel = (channelName, channelId) => {
-    dispatch(setActiveChannelId(channelId));
-    dispatch(setActiveChannelName(channelName));
-  };
 
   const openRenameNodal = (targetChannelName, targetChannelId) => {
     dispatch(setModalRenameChannelStatus({
@@ -42,7 +38,7 @@ const Channels = () => {
           type="button"
           id={channel.id}
           className={classNames('w-100', 'rounded-0', 'text-start', 'btn', { 'btn-secondary': channel.name === activeChannelName, 'text-truncate': channel.name !== 'general' && channel.name !== 'random' })}
-          onClick={() => switchChannel(channel.name, channel.id)}
+          onClick={() => dispatch(switchChannel({ name: channel.name, id: channel.id} ))}
         >
           <span className="me-1">#</span>
           {' '}
