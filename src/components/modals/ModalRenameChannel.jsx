@@ -15,7 +15,6 @@ function ModalRenameChannel(props) {
   const { t } = useTranslation();
   const innerRef = useRef();
   const nameOfRenamingChannel = useSelector((state) => state.channels.channels.find((channel) => channel.id === channelId)).name;
-  // const idOfRenamingChannel = useSelector((state) => state.channels.activeChannelId);
   const channelsInChat = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
   const { renameChannel } = useContext(SocketContext);

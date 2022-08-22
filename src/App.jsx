@@ -12,9 +12,10 @@ import RoutesInit from './components/RoutesInit.jsx';
 import { AuthContextProvider } from './context/AuthContext.jsx';
 import { SocketContextProvider } from './context/SocketContextProvider.jsx';
 import { setModalRenameChannelStatus } from './slices/modalsSlice.js';
-import { sendNewMessage, deleteChannelMessages } from './slices/messagesSlice.js';
+import { sendNewMessage } from './slices/messagesSlice.js';
+import { switchChannel } from './slices/channelsSlice.js';
 import {
-  addNewChannel, deleteChannel, setActiveChannelId, setActiveChannelName, changeChannelName,
+  addNewChannel, deleteChannel, changeChannelName,
 } from './slices/channelsSlice.js';
 import 'react-toastify/dist/ReactToastify.css';
 import store from './slices/index.js';
@@ -48,21 +49,18 @@ const App = (socket) => {
   });
 
   socket.on('removeChannel', (response) => {
+    const currentActiveChannel = store.getState().channels.activeChannelId;
     const channelIdToRemove = response.id;
     store.dispatch(deleteChannel(channelIdToRemove));
-    store.dispatch(deleteChannelMessages(channelIdToRemove));
-    store.dispatch(setActiveChannelId(1));
-    store.dispatch(setActiveChannelName('general'));
+    if (channelIdToRemove === currentActiveChannel) {
+      store.dispatch(switchChannel({ name: 'general', id: 1 }));
+    }
   });
 
   socket.on('renameChannel', (response) => {
     const { name, id } = response;
     store.dispatch(changeChannelName({ name, id }));
     store.dispatch(setModalRenameChannelStatus({ isOpen: false, previousName: '', channelId: null }));
-    const { activeChannelId } = store.getState().channels;
-    if (activeChannelId === id) {
-      store.dispatch(setActiveChannelName(name));
-    }
   });
 
   ReactDOM.render(

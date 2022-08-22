@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { createSlice } from '@reduxjs/toolkit';
+import { deleteChannelMessages } from './messagesSlice.js';
 
 const initialState = {
   isOpen: false,

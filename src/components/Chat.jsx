@@ -8,7 +8,6 @@ import { AuthContext } from '../context/AuthContext.jsx';
 import { switchChannel } from '../slices/channelsSlice.js';
 import { setAlreadyExistingChannels } from '../slices/channelsSlice.js';
 import { setModalStatusAndType } from '../slices/modalsSlice.js';
-import { importExistingMessages } from '../slices/messagesSlice.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 import MessageSendingForm from './MessageSendingForm.jsx';
@@ -47,8 +46,7 @@ function Chat() {
       });
       const { channels, messages, currentChannelId } = response.data;
       dispatch(switchChannel({ name: channels[currentChannelId - 1].name, id: currentChannelId}));
-      dispatch(importExistingMessages(messages));
-      dispatch(setAlreadyExistingChannels(channels));
+      dispatch(setAlreadyExistingChannels({ channels, messages }));
     } catch (e) {
       if (e.response.status === 401) {
         logOut();
