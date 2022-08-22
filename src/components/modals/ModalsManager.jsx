@@ -3,13 +3,16 @@ import ModalAddChannel from "./ModalAddChannel";
 import ModalDeleteChannel from "./ModalDeleteChannel";
 import ModalRenameChannel from "./ModalRenameChannel";
 
+const modals = {
+    add: () => <ModalAddChannel status={true} />,
+    rename: (channelId) => <ModalRenameChannel status={true} channelId={channelId} />,
+    delete: (channelId) => <ModalDeleteChannel status={true} channelId={channelId} />,
+};
+
 function ModalsManager(props) {
-    const { statuses } = props;
-    for (const [key, value] of Object.entries(statuses)) {
-        if (value !== true) continue;
-        if (key.includes('add')) return <ModalAddChannel status={value} />;
-        if (key.includes('rename')) return <ModalRenameChannel status={value}/>;
-        if (key.includes('delete')) return <ModalDeleteChannel status={value}/>;
+    const { modalType, channelId } = props;
+    if (modals[modalType]) {
+       return modals[modalType](channelId);
     }
     return (
         <React.Fragment />

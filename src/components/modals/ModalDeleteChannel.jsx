@@ -7,11 +7,10 @@ import { setModalDeleteChannelStatus } from '../../slices/modalsSlice.js';
 import { acknowlodgeDeleteChannel } from '../../acknowledgeCallbacks.js';
 
 function ModalDeleteChannel(props) {
-  const { status } = props;
+  const { status, channelId } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { removeChannel } = useContext(SocketContext);
-  const idOfDeletingChannel = useSelector((state) => state.modals.deleteChannel.channelId);
 
   return (
     <Modal centered show={status} onHide={() => dispatch(setModalDeleteChannelStatus(false))}>
@@ -39,7 +38,7 @@ function ModalDeleteChannel(props) {
           <Button
             className="btn btn-danger"
             onClick={() => {
-              removeChannel(idOfDeletingChannel, acknowlodgeDeleteChannel);
+              removeChannel(channelId, acknowlodgeDeleteChannel);
             }}
           >
             {t('labels.toDelete')}

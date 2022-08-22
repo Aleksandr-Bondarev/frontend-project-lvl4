@@ -7,15 +7,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import filter from 'leo-profanity';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
-import { setModalRenameChannelStatus } from '../../slices/modalsSlice.js';
+import { setModalStatusAndType, setModalRenameChannelStatus } from '../../slices/modalsSlice.js';
 import { acknowlodgeRenameChannel } from '../../acknowledgeCallbacks.js';
 
 function ModalRenameChannel(props) {
-  const { status } = props;
+  const { status, channelId } = props;
   const { t } = useTranslation();
   const innerRef = useRef();
-  const nameOfRenamingChannel = useSelector((state) => state.modals.renameChannel.previousName);
-  const idOfRenamingChannel = useSelector((state) => state.modals.renameChannel.channelId);
+  const nameOfRenamingChannel = useSelector((state) => state.channels.channels.find((channel) => channel.id === channelId)).name;
+  // const idOfRenamingChannel = useSelector((state) => state.channels.activeChannelId);
   const channelsInChat = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
   const { renameChannel } = useContext(SocketContext);
@@ -42,19 +42,25 @@ function ModalRenameChannel(props) {
     onSubmit: async ({ newName }) => {
       const sameNameChannel = channelsInChat.filter((channel) => channel.name === newName);
       if (sameNameChannel.length !== 0) return;
-      await renameChannel(idOfRenamingChannel, filter.clean(newName), acknowlodgeRenameChannel);
+      await renameChannel(channelId, filter.clean(newName), acknowlodgeRenameChannel);
     },
   });
 
   return (
-    <Modal centered show={status} onHide={() => dispatch(setModalRenameChannelStatus(false))}>
+    <Modal centered show={status} onHide={() => dispatch(setModalRenameChannelStatus({
+      isOpen: false,
+      type: null,
+    }))}>
       <Modal.Header>
         <Modal.Title>{t('labels.toRenameChannel')}</Modal.Title>
         <Button
           aria-label="Close"
           className="btn btn-close"
           onClick={() => {
-            dispatch(setModalRenameChannelStatus(false));
+            dispatch(setModalRenameChannelStatus({
+              isOpen: false,
+              type: null,
+            }));
           }}
         />
       </Modal.Header>
@@ -71,7 +77,10 @@ function ModalRenameChannel(props) {
             <Button
               className="me-2 btn btn-secondary"
               onClick={() => {
-                dispatch(setModalRenameChannelStatus(false));
+                dispatch(setModalRenameChannelStatus({
+                  isOpen: false,
+                  type: null,
+                }));
               }}
             >
               {t('labels.toCancel')}

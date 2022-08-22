@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { switchChannel } from '../slices/channelsSlice.js';
-// import { setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
+import { setActiveChannelId, setActiveChannelName } from '../slices/channelsSlice.js';
 import { setModalRenameChannelStatus, setModalDeleteChannelStatus } from '../slices/modalsSlice.js';
 
 const Channels = () => {
@@ -16,17 +16,19 @@ const Channels = () => {
   const activeChannelName = useSelector((state) => state.channels.activeChannelName);
   const dispatch = useDispatch();
 
-  const openRenameNodal = (targetChannelName, targetChannelId) => {
+  const openRenameModal = (targetChannelId) => {
     dispatch(setModalRenameChannelStatus({
       isOpen: true,
-      previousName: targetChannelName,
+      type: 'rename',
       channelId: targetChannelId,
     }));
   };
 
   const openDeleteModal = (targetChannelId) => {
+    console.log('delete channel id', targetChannelId);
     dispatch(setModalDeleteChannelStatus({
       isOpen: true,
+      type: 'delete',
       channelId: targetChannelId,
     }));
   };
@@ -58,7 +60,7 @@ const Channels = () => {
               {t('labels.toDelete')}
             </Dropdown.Item>
             <Dropdown.Item onClick={() => {
-              openRenameNodal(channel.name, channel.id);
+              openRenameModal(channel.id);
             }}
             >
               {t('labels.toRename')}

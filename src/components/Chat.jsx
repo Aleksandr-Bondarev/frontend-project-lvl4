@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { switchChannel } from '../slices/channelsSlice.js';
 import { setAlreadyExistingChannels } from '../slices/channelsSlice.js';
-import { setModalAddChannelStatus } from '../slices/modalsSlice.js';
+import { setModalStatusAndType } from '../slices/modalsSlice.js';
 import { importExistingMessages } from '../slices/messagesSlice.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
@@ -27,9 +27,8 @@ function Chat() {
   const rollbar = useRollbar();
   const currentChannelName = useSelector((state) => state.channels.activeChannelName);
   const channelId = useSelector((state) => state.channels.activeChannelId);
-  const addChannelIsOpen = useSelector((state) => state.modals.addChannel);
-  const renameChannelIsOpen = useSelector((state) => state.modals.renameChannel.isOpen);
-  const deleteChannelIsOpen = useSelector((state) => state.modals.deleteChannel.isOpen);
+  const typeOfOpenedModal = useSelector((state) => state.modals.type);
+  const channelIdForModal = useSelector((state) => state.modals.channelId);
 
   const allChatMessages = useSelector((state) => state.messages.messages);
   const messagesInCurrentChannel = allChatMessages
@@ -66,7 +65,7 @@ function Chat() {
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
-      <ModalsManager statuses={ {addChannelIsOpen, renameChannelIsOpen, deleteChannelIsOpen} } />
+      <ModalsManager modalType={ typeOfOpenedModal } channelId={ channelIdForModal } />
       <div className="row h-100 bg-white flex-md-row">
         <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
@@ -75,7 +74,7 @@ function Chat() {
               type="button"
               className="p-0 text-primary btn btn-group-vertical"
               onClick={() => {
-                dispatch(setModalAddChannelStatus(true));
+                dispatch(setModalStatusAndType({ isOpen: true, type: 'add' }));
               }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">

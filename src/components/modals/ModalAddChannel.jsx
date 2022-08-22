@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Modal, Form } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
-import { setModalAddChannelStatus } from '../../slices/modalsSlice.js';
+import { setModalStatusAndType } from '../../slices/modalsSlice.js';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { acknowledgeChannelCreating } from '../../acknowledgeCallbacks.js';
 
@@ -38,7 +38,7 @@ function ModalAddChannel(props) {
       const sameNameChannel = channelsInChat.filter((channel) => channel.name === name);
       if (sameNameChannel.length !== 0) return;
       await addChannel({ name: filter.clean(newChannelName) }, acknowledgeChannelCreating);
-      dispatch(setModalAddChannelStatus(false));
+      dispatch(setModalStatusAndType({ isOpen: false, type: null }));
       actions.resetForm();
       toast.success(t('toasts.channelCreated'));
     },
@@ -48,7 +48,7 @@ function ModalAddChannel(props) {
     <Modal
       centered
       show={status}
-      onHide={() => dispatch(setModalAddChannelStatus(false))}
+      onHide={() => dispatch(setModalStatusAndType({ isOpen: false, type: null }))}
       animation={false}
     >
       <Modal.Header>
@@ -59,7 +59,7 @@ function ModalAddChannel(props) {
           data-bs-dismiss="modal"
           className="btn btn-close"
           onClick={() => {
-            dispatch(setModalAddChannelStatus(false));
+            dispatch(setModalStatusAndType({ isOpen: false, type: null }));
           }}
         />
       </Modal.Header>
@@ -78,7 +78,7 @@ function ModalAddChannel(props) {
               type="button"
               className="me-2 btn btn-secondary"
               onClick={() => {
-                dispatch(setModalAddChannelStatus(false));
+                dispatch(setModalStatusAndType({ isOpen: false, type: null }));
               }}
             >
               {t('labels.toCancel')}
