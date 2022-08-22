@@ -11,7 +11,7 @@ import Navbar from './components/Navbar.jsx';
 import RoutesInit from './components/RoutesInit.jsx';
 import { AuthContextProvider } from './context/AuthContext.jsx';
 import { SocketContextProvider } from './context/SocketContextProvider.jsx';
-import { setModalRenameChannelStatus } from './slices/modalsSlice.js';
+import { setModalStatusAndType } from './slices/modalsSlice.js';
 import { sendNewMessage } from './slices/messagesSlice.js';
 import { switchChannel } from './slices/channelsSlice.js';
 import {
@@ -60,7 +60,7 @@ const App = (socket) => {
   socket.on('renameChannel', (response) => {
     const { name, id } = response;
     store.dispatch(changeChannelName({ name, id }));
-    store.dispatch(setModalRenameChannelStatus({ isOpen: false, previousName: '', channelId: null }));
+    store.dispatch(setModalStatusAndType({ isOpen: false, previousName: '', channelId: null }));
   });
 
   ReactDOM.render(

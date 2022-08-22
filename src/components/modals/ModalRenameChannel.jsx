@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import filter from 'leo-profanity';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
-import { setModalStatusAndType, setModalRenameChannelStatus } from '../../slices/modalsSlice.js';
+import { setModalStatusAndType } from '../../slices/modalsSlice.js';
 import { acknowlodgeRenameChannel } from '../../acknowledgeCallbacks.js';
 
 function ModalRenameChannel(props) {
@@ -46,7 +46,7 @@ function ModalRenameChannel(props) {
   });
 
   return (
-    <Modal centered show={status} onHide={() => dispatch(setModalRenameChannelStatus({
+    <Modal centered show={status} onHide={() => dispatch(setModalStatusAndType({
       isOpen: false,
       type: null,
     }))}>
@@ -56,7 +56,7 @@ function ModalRenameChannel(props) {
           aria-label="Close"
           className="btn btn-close"
           onClick={() => {
-            dispatch(setModalRenameChannelStatus({
+            dispatch(setModalStatusAndType({
               isOpen: false,
               type: null,
             }));
@@ -76,7 +76,7 @@ function ModalRenameChannel(props) {
             <Button
               className="me-2 btn btn-secondary"
               onClick={() => {
-                dispatch(setModalRenameChannelStatus({
+                dispatch(setModalStatusAndType({
                   isOpen: false,
                   type: null,
                 }));

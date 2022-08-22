@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import i18n from 'i18next';
 import store from './slices/index.js';
 import { switchChannel } from './slices/channelsSlice.js';
-import { setModalDeleteChannelStatus } from './slices/modalsSlice.js';
+import { setModalStatusAndType } from './slices/modalsSlice.js';
 
 export const acknowlodgeMessageSending = (response) => {
   let status;
@@ -44,7 +44,7 @@ export const acknowlodgeDeleteChannel = (response) => {
   status = response.status;
 
   if (status === 'ok') {
-    store.dispatch(setModalDeleteChannelStatus(false));
+    store.dispatch(setModalStatusAndType({ isOpened: false, type: null }));
     toast.success(i18n.t('toasts.channelRemoved'));
   }
 };

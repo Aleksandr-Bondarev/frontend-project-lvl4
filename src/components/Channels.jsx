@@ -6,17 +6,18 @@ import classNames from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { switchChannel } from '../slices/channelsSlice.js';
-import { setModalRenameChannelStatus, setModalDeleteChannelStatus } from '../slices/modalsSlice.js';
+import { setModalStatusAndType } from '../slices/modalsSlice.js';
 
 const Channels = () => {
   const { t } = useTranslation();
 
   const chatChannels = useSelector((state) => state.channels.channels);
   const activeChannelId = useSelector((state) => state.channels.activeChannelId);
+  console.log('active channel id', activeChannelId);
   const dispatch = useDispatch();
 
   const openRenameModal = (targetChannelId) => {
-    dispatch(setModalRenameChannelStatus({
+    dispatch(setModalStatusAndType({
       isOpen: true,
       type: 'rename',
       channelId: targetChannelId,
@@ -24,8 +25,7 @@ const Channels = () => {
   };
 
   const openDeleteModal = (targetChannelId) => {
-    console.log('delete channel id', targetChannelId);
-    dispatch(setModalDeleteChannelStatus({
+    dispatch(setModalStatusAndType({
       isOpen: true,
       type: 'delete',
       channelId: targetChannelId,
@@ -48,8 +48,8 @@ const Channels = () => {
         { channel.name !== 'general' && channel.name !== 'random'
       && (
         <Dropdown>
-          <Dropdown.Toggle variant="Secondary" id="dropdown-basic">
-            <span className="visually-hidden">{t('labels.channelControl')}</span>
+          <Dropdown.Toggle variant="Secondary" id="dropdown-basic" className={classNames('rounded-0', { 'btn-secondary': channel.id === activeChannelId })}>
+            <span className='visually-hidden'>{t('labels.channelControl')}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => {

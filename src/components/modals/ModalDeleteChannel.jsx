@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
-import { setModalDeleteChannelStatus } from '../../slices/modalsSlice.js';
+import { setModalStatusAndType } from '../../slices/modalsSlice.js';
 import { acknowlodgeDeleteChannel } from '../../acknowledgeCallbacks.js';
 
 function ModalDeleteChannel(props) {
@@ -13,14 +13,14 @@ function ModalDeleteChannel(props) {
   const { removeChannel } = useContext(SocketContext);
 
   return (
-    <Modal centered show={status} onHide={() => dispatch(setModalDeleteChannelStatus(false))}>
+    <Modal centered show={status} onHide={() => dispatch(setModalStatusAndType({ isOpen: false, type: null }))}>
       <Modal.Header>
         <Modal.Title>{t('labels.toDeleteChannel')}</Modal.Title>
         <Button
           aria-label="Close"
           className="btn btn-close"
           onClick={() => {
-            dispatch(setModalDeleteChannelStatus(false));
+            dispatch(setModalStatusAndType({ isOpen: false, type: null }));
           }}
         />
       </Modal.Header>
@@ -30,7 +30,7 @@ function ModalDeleteChannel(props) {
           <Button
             className="me-2 btn btn-secondary"
             onClick={() => {
-              dispatch(setModalDeleteChannelStatus(false));
+              dispatch(setModalStatusAndType({ isOpen: false, type: null }));
             }}
           >
             {t('labels.toCancel')}
