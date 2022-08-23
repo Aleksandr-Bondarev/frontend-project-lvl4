@@ -20,11 +20,11 @@ const messagesSlice = createSlice({
       .addCase(deleteChannel, (state, action) => {
         const id = action.payload;
         state.messages = state.messages.filter((message) => message.channelId !== id);
-    }).addCase(setAlreadyExistingChannels, (state, action) => {
+      }).addCase(setAlreadyExistingChannels, (state, action) => {
         const { messages } = action.payload;
         state.messages = messages;
-    })
-  }
+      });
+  },
 });
 
 export const {

@@ -13,8 +13,8 @@ import { AuthContextProvider } from './context/AuthContext.jsx';
 import { SocketContextProvider } from './context/SocketContextProvider.jsx';
 import { setModalStatusAndType } from './slices/modalsSlice.js';
 import { sendNewMessage } from './slices/messagesSlice.js';
-import { switchChannel } from './slices/channelsSlice.js';
 import {
+  switchChannel,
   addNewChannel, deleteChannel, changeChannelName,
 } from './slices/channelsSlice.js';
 import 'react-toastify/dist/ReactToastify.css';

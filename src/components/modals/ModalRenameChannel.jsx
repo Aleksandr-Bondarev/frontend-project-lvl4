@@ -11,16 +11,19 @@ import { setModalStatusAndType } from '../../slices/modalsSlice.js';
 import { acknowlodgeRenameChannel } from '../../acknowledgeCallbacks.js';
 
 function ModalRenameChannel(props) {
-  const { status, channelId } = props;
+  const { channelId } = props;
   const { t } = useTranslation();
   const innerRef = useRef();
-  const nameOfRenamingChannel = useSelector((state) => state.channels.channels.find((channel) => channel.id === channelId)).name;
+  const nameOfRenamingChannel = useSelector((state) => {
+    const channelToRaname = state.channels.channels.find((channel) => channel.id === channelId);
+    return channelToRaname.name;
+  });
   const channelsInChat = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
   const { renameChannel } = useContext(SocketContext);
   filter.add(filter.getDictionary('ru'));
 
-  useEffect(() => innerRef.current && innerRef.current.focus());
+  useEffect(() => { innerRef.current.focus(); }, [innerRef.current]);
 
   const checkUniqueNameOnSubmit = (e, name) => {
     e.preventDefault();
@@ -46,10 +49,7 @@ function ModalRenameChannel(props) {
   });
 
   return (
-    <Modal centered show={status} onHide={() => dispatch(setModalStatusAndType({
-      isOpen: false,
-      type: null,
-    }))}>
+    <>
       <Modal.Header>
         <Modal.Title>{t('labels.toRenameChannel')}</Modal.Title>
         <Button
@@ -88,7 +88,7 @@ function ModalRenameChannel(props) {
           </div>
         </Form>
       </Modal.Body>
-    </Modal>
+    </>
   );
 }
 

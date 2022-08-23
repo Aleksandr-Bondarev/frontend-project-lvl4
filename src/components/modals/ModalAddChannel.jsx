@@ -11,8 +11,7 @@ import { setModalStatusAndType } from '../../slices/modalsSlice.js';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { acknowledgeChannelCreating } from '../../acknowledgeCallbacks.js';
 
-function ModalAddChannel(props) {
-  const { status } = props;
+function ModalAddChannel() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { addChannel } = useContext(SocketContext);
@@ -20,7 +19,9 @@ function ModalAddChannel(props) {
   filter.add(filter.getDictionary('ru'));
 
   const checkUniqueNameOnSubmit = (e, name) => {
-    const sameNameChannel = channelsInChat.filter((channel) => channel.name === name);
+    const sameNameChannel = channelsInChat.filter(
+      (channel) => channel.name === name,
+    );
     if (sameNameChannel.length !== 0) {
       const formControlNode = e.target.childNodes[0];
       const invalidFeedbackContainer = e.target.childNodes[2];
@@ -35,9 +36,14 @@ function ModalAddChannel(props) {
     },
     onSubmit: async ({ name }, actions) => {
       const newChannelName = name;
-      const sameNameChannel = channelsInChat.filter((channel) => channel.name === name);
+      const sameNameChannel = channelsInChat.filter(
+        (channel) => channel.name === name,
+      );
       if (sameNameChannel.length !== 0) return;
-      await addChannel({ name: filter.clean(newChannelName) }, acknowledgeChannelCreating);
+      await addChannel(
+        { name: filter.clean(newChannelName) },
+        acknowledgeChannelCreating,
+      );
       dispatch(setModalStatusAndType({ isOpen: false, type: null }));
       actions.resetForm();
       toast.success(t('toasts.channelCreated'));
@@ -45,12 +51,7 @@ function ModalAddChannel(props) {
   });
 
   return (
-    <Modal
-      centered
-      show={status}
-      onHide={() => dispatch(setModalStatusAndType({ isOpen: false, type: null }))}
-      animation={false}
-    >
+    <>
       <Modal.Header>
         <Modal.Title>{t('labels.toAddChannel')}</Modal.Title>
         <button
@@ -64,14 +65,24 @@ function ModalAddChannel(props) {
         />
       </Modal.Header>
       <Modal.Body className="">
-        <Form onSubmit={(e) => {
-          e.preventDefault();
-          checkUniqueNameOnSubmit(e, formik.values.name);
-          formik.handleSubmit();
-        }}
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            checkUniqueNameOnSubmit(e, formik.values.name);
+            formik.handleSubmit();
+          }}
         >
-          <Form.Control autoFocus name="name" id="name" className="mb-2 form-control" value={formik.values.newChannelName} onChange={formik.handleChange} />
-          <label className="visually-hidden" htmlFor="name">Имя канала</label>
+          <Form.Control
+            autoFocus
+            name="name"
+            id="name"
+            className="mb-2 form-control"
+            value={formik.values.newChannelName}
+            onChange={formik.handleChange}
+          />
+          <label className="visually-hidden" htmlFor="name">
+            Имя канала
+          </label>
           <div className="invalid-feedback" />
           <div className="d-flex justify-content-end">
             <button
@@ -83,11 +94,13 @@ function ModalAddChannel(props) {
             >
               {t('labels.toCancel')}
             </button>
-            <button type="submit" className="btn btn-primary">{t('labels.toSend')}</button>
+            <button type="submit" className="btn btn-primary">
+              {t('labels.toSend')}
+            </button>
           </div>
         </Form>
       </Modal.Body>
-    </Modal>
+    </>
   );
 }
 

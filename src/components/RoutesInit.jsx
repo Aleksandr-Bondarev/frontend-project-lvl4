@@ -10,7 +10,7 @@ function RoutesInit() {
   const { authentificationStatus } = useContext(AuthContext);
   return (
     <Routes>
-      <Route path="/" element={authentificationStatus ? <Chat /> : <Navigate to="login" replace={true} />} />
+      <Route path="/" element={authentificationStatus ? <Chat /> : <Navigate to="login" replace />} />
       <Route path="login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
       <Route path="signup" element={<SignUp />} />

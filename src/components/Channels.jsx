@@ -39,7 +39,7 @@ const Channels = () => {
           type="button"
           id={channel.id}
           className={classNames('w-100', 'rounded-0', 'text-start', 'btn', { 'btn-secondary': channel.id === activeChannelId, 'text-truncate': channel.name !== 'general' && channel.name !== 'random' })}
-          onClick={() => dispatch(switchChannel({ name: channel.name, id: channel.id} ))}
+          onClick={() => dispatch(switchChannel({ name: channel.name, id: channel.id }))}
         >
           <span className="me-1">#</span>
           {' '}
@@ -49,7 +49,7 @@ const Channels = () => {
       && (
         <Dropdown>
           <Dropdown.Toggle variant="Secondary" id="dropdown-basic" className={classNames('rounded-0', { 'btn-secondary': channel.id === activeChannelId })}>
-            <span className='visually-hidden'>{t('labels.channelControl')}</span>
+            <span className="visually-hidden">{t('labels.channelControl')}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => {

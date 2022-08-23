@@ -44,7 +44,7 @@ export const acknowlodgeDeleteChannel = (response) => {
   status = response.status;
 
   if (status === 'ok') {
-    store.dispatch(setModalStatusAndType({ isOpened: false, type: null }));
+    store.dispatch(setModalStatusAndType({ isOpen: false, type: null }));
     toast.success(i18n.t('toasts.channelRemoved'));
   }
 };
