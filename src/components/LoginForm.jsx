@@ -29,8 +29,8 @@ function LoginForm() {
   };
 
   const validation = yup.object().shape({
-    username: yup.string().required(t('errors.loginErrors')),
-    password: yup.string().required(t('errors.loginErrors')),
+    username: yup.string().required('errors.loginErrors'),
+    password: yup.string().required('errors.loginErrors'),
   });
 
   const formik = useFormik({
@@ -43,8 +43,6 @@ function LoginForm() {
       try {
         const response = await axios.post('http://localhost:5000/api/v1/login', values);
         login(response.data);
-        console.log('from login');
-        console.log(response.data);
       } catch (e) {
         if (e.response.data.message === 'Unauthorized') {
           handleUnauthorized();

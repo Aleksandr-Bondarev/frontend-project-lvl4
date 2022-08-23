@@ -7,14 +7,15 @@ import ModalDeleteChannel from './ModalDeleteChannel';
 import ModalRenameChannel from './ModalRenameChannel';
 
 const modals = {
-  add: () => <ModalAddChannel />,
-  rename: (channelId) => (<ModalRenameChannel channelId={channelId} />),
-  delete: (channelId) => (<ModalDeleteChannel channelId={channelId} />),
+  add: ModalAddChannel,
+  rename: ModalRenameChannel,
+  delete: ModalDeleteChannel,
 };
 
 function ModalsManager(props) {
   const { modalType, channelId, status } = props;
   const dispatch = useDispatch();
+  const Component = modals[modalType];
   return (
     <Modal
       centered
@@ -22,7 +23,7 @@ function ModalsManager(props) {
       onHide={() => dispatch(setModalStatusAndType({ isOpen: false, type: null }))}
       animation={false}
     >
-      {status && modals[modalType](channelId)}
+      {Component && <Component channelId={channelId} />}
     </Modal>
   );
 }

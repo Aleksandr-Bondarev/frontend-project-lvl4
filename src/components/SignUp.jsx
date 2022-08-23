@@ -45,15 +45,15 @@ function SignUp() {
 
     validationSchema: yup.object({
       username: yup.string()
-        .required(t('errors.isRequired'))
-        .min(3, t('errors.lengthFromThreeToTwenty'))
-        .max(20, t('errors.lengthFromThreeToTwenty')),
+        .required('errors.isRequired')
+        .min(3, 'errors.lengthFromThreeToTwenty')
+        .max(20, 'errors.lengthFromThreeToTwenty'),
       password: yup.string()
-        .required(t('errors.isRequired'))
-        .min(6, t('errors.lessThanSixSymbols')),
+        .required('errors.isRequired')
+        .min(6, 'errors.lessThanSixSymbols'),
       confirmPassword: yup.string()
-        .oneOf([yup.ref('password'), null], t('errors.passwordsDoNotMatch'))
-        .required(t('errors.isRequired')),
+        .oneOf([yup.ref('password'), null], 'errors.passwordsDoNotMatch')
+        .required('errors.isRequired'),
     }),
 
     onSubmit: async ({ username, password }) => {
@@ -112,7 +112,7 @@ function SignUp() {
                     onBlur={formik.handleBlur}
                   />
                   {formik.errors.username && formik.touched.username ? (
-                    <div className="invalid-tooltip" id="tooltipUsername">{formik.errors.username}</div>
+                    <div className="invalid-tooltip" id="tooltipUsername">{t(formik.errors.username)}</div>
                   ) : null}
                   <label className="form-label" htmlFor="username">{t('labels.userName')}</label>
                 </div>
@@ -130,7 +130,7 @@ function SignUp() {
                     onBlur={formik.handleBlur}
                   />
                   {formik.errors.password && formik.touched.password ? (
-                    <div className="invalid-tooltip" id="tooltipPassword">{formik.errors.password}</div>
+                    <div className="invalid-tooltip" id="tooltipPassword">{t(formik.errors.password)}</div>
                   ) : null}
                   <label className="form-label" htmlFor="password">{t('labels.password')}</label>
                 </div>
@@ -147,7 +147,7 @@ function SignUp() {
                     onBlur={formik.handleBlur}
                   />
                   {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
-                    <div className="invalid-tooltip" id="tooltipConfirmPassword">{formik.errors.confirmPassword}</div>
+                    <div className="invalid-tooltip" id="tooltipConfirmPassword">{t(formik.errors.confirmPassword)}</div>
                   ) : null}
                   <label className="form-label" htmlFor="confirmPassword">{t('labels.confirmPassword')}</label>
                 </div>

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext.jsx';
-import { switchChannel, setAlreadyExistingChannels } from '../slices/channelsSlice.js';
+import { switchChannel, initChannels } from '../slices/channelsSlice.js';
 import { setModalStatusAndType } from '../slices/modalsSlice.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
@@ -23,12 +23,15 @@ function Chat() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const rollbar = useRollbar();
-  const currentChannelName = useSelector((state) => state.channels.activeChannelName);
-  const channelId = useSelector((state) => state.channels.activeChannelId);
   const typeOfOpenedModal = useSelector((state) => state.modals.type);
   const channelIdForModal = useSelector((state) => state.modals.channelId);
   const modalIsOpen = useSelector((state) => state.modals.isOpen);
-
+  const channelId = useSelector((state) => state.channels.activeChannelId);
+  const currentChannelName = useSelector((state) => {
+    const currentChannel = state.channels.channels.find((channel) => channel.id === channelId);
+    const name = currentChannel ? currentChannel.name : null;
+    return name;
+  });
   const allChatMessages = useSelector((state) => state.messages.messages);
   const messagesInCurrentChannel = allChatMessages
     .filter((message) => message.channelId === channelId);
@@ -46,7 +49,7 @@ function Chat() {
       });
       const { channels, messages, currentChannelId } = response.data;
       dispatch(switchChannel({ name: channels[currentChannelId - 1].name, id: currentChannelId }));
-      dispatch(setAlreadyExistingChannels({ channels, messages }));
+      dispatch(initChannels({ channels, messages }));
     } catch (e) {
       if (e.response.status === 401) {
         logOut();
