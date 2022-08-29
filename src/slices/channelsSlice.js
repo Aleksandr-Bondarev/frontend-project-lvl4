@@ -6,7 +6,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   channels: [],
   activeChannelId: null,
-  activeChannelName: '',
 };
 
 const channelsSlice = createSlice({
@@ -30,10 +29,8 @@ const channelsSlice = createSlice({
       channelToChange.name = name;
     },
     switchChannel: (state, action) => {
-      const { name } = action.payload;
       const { id } = action.payload;
       state.activeChannelId = id;
-      state.activeChannelName = name;
     },
   },
 });

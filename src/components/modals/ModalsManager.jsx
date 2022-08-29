@@ -15,12 +15,13 @@ const modals = {
 function ModalsManager(props) {
   const { modalType, channelId, status } = props;
   const dispatch = useDispatch();
+  const hideModal = () => dispatch(setModalStatusAndType({ isOpen: false, type: null }));
   const Component = modals[modalType];
   return (
     <Modal
       centered
       show={status}
-      onHide={() => dispatch(setModalStatusAndType({ isOpen: false, type: null }))}
+      onHide={hideModal}
       animation={false}
     >
       {Component && <Component channelId={channelId} />}

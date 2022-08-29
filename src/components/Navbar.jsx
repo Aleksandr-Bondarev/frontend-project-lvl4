@@ -5,9 +5,6 @@ import { AuthContext } from '../context/AuthContext.jsx';
 function Navbar() {
   const { logOut, isAuthorized } = useContext(AuthContext);
   const { t } = useTranslation();
-  const clickButton = () => {
-    logOut();
-  };
 
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -17,7 +14,7 @@ function Navbar() {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={clickButton}
+          onClick={logOut}
         >
           {t('labels.toLogOut')}
         </button>

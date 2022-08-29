@@ -20,6 +20,10 @@ function ModalRenameChannel(props) {
   });
   const channelsInChat = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
+  const closeModal = () => dispatch(setModalStatusAndType({
+    isOpen: false,
+    type: null,
+  }));
   const { renameChannel } = useContext(SocketContext);
   filter.add(filter.getDictionary('ru'));
 
@@ -55,12 +59,7 @@ function ModalRenameChannel(props) {
         <Button
           aria-label="Close"
           className="btn btn-close"
-          onClick={() => {
-            dispatch(setModalStatusAndType({
-              isOpen: false,
-              type: null,
-            }));
-          }}
+          onClick={closeModal}
         />
       </Modal.Header>
       <Modal.Body>
@@ -75,12 +74,7 @@ function ModalRenameChannel(props) {
           <div className="d-flex justify-content-end">
             <Button
               className="me-2 btn btn-secondary"
-              onClick={() => {
-                dispatch(setModalStatusAndType({
-                  isOpen: false,
-                  type: null,
-                }));
-              }}
+              onClick={closeModal}
             >
               {t('labels.toCancel')}
             </Button>

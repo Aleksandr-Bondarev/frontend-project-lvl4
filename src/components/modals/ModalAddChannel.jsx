@@ -16,6 +16,7 @@ function ModalAddChannel() {
   const dispatch = useDispatch();
   const { addChannel } = useContext(SocketContext);
   const channelsInChat = useSelector((state) => state.channels.channels);
+  const closeModal = () => dispatch(setModalStatusAndType({ isOpen: false, type: null }));
   filter.add(filter.getDictionary('ru'));
 
   const checkUniqueNameOnSubmit = (e, name) => {
@@ -59,9 +60,7 @@ function ModalAddChannel() {
           aria-label="Close"
           data-bs-dismiss="modal"
           className="btn btn-close"
-          onClick={() => {
-            dispatch(setModalStatusAndType({ isOpen: false, type: null }));
-          }}
+          onClick={closeModal}
         />
       </Modal.Header>
       <Modal.Body className="">
@@ -88,9 +87,7 @@ function ModalAddChannel() {
             <button
               type="button"
               className="me-2 btn btn-secondary"
-              onClick={() => {
-                dispatch(setModalStatusAndType({ isOpen: false, type: null }));
-              }}
+              onClick={closeModal}
             >
               {t('labels.toCancel')}
             </button>

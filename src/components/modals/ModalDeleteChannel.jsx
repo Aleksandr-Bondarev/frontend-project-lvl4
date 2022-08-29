@@ -11,6 +11,8 @@ function ModalDeleteChannel(props) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { removeChannel } = useContext(SocketContext);
+  const closeModal = () => dispatch(setModalStatusAndType({ isOpen: false, type: null }));
+  const handleClickOnRemove = () => removeChannel(channelId, acknowlodgeDeleteChannel);
 
   return (
     <>
@@ -19,9 +21,7 @@ function ModalDeleteChannel(props) {
         <Button
           aria-label="Close"
           className="btn btn-close"
-          onClick={() => {
-            dispatch(setModalStatusAndType({ isOpen: false, type: null }));
-          }}
+          onClick={closeModal}
         />
       </Modal.Header>
       <Modal.Body>
@@ -29,17 +29,13 @@ function ModalDeleteChannel(props) {
         <div className="d-flex justify-content-end">
           <Button
             className="me-2 btn btn-secondary"
-            onClick={() => {
-              dispatch(setModalStatusAndType({ isOpen: false, type: null }));
-            }}
+            onClick={closeModal}
           >
             {t('labels.toCancel')}
           </Button>
           <Button
             className="btn btn-danger"
-            onClick={() => {
-              removeChannel(channelId, acknowlodgeDeleteChannel);
-            }}
+            onClick={handleClickOnRemove}
           >
             {t('labels.toDelete')}
           </Button>
