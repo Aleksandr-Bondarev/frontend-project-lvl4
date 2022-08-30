@@ -17,7 +17,7 @@ module.exports = {
   },
   devServer: {
     client: {
-      overlay: false
+      overlay: false,
   },
     compress: true,
     port: 8090,
@@ -36,9 +36,9 @@ module.exports = {
         use: {
           loader: 'url-loader', // this need file-loader
           options: {
-            limit: 50000
+            limit: 50000,
           },
-        }
+        },
       },
       {
         test: /\.jsx?$/,

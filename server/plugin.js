@@ -24,7 +24,8 @@ const isDevelopment = !isProduction;
 
 const setUpViews = (app) => {
   const devHost = 'http://localhost:8090';
-  const domain = isDevelopment ? devHost : '';
+  // const domain = isDevelopment ? devHost : '';
+  const domain = "";
   app.register(pointOfView, {
     engine: {
       pug: Pug,
