@@ -8,7 +8,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import filter from 'leo-profanity';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { setModalStatusAndType } from '../../slices/modalsSlice.js';
-import { acknowlodgeRenameChannel } from '../../acknowledgeCallbacks.js';
+import { AcknowledgeContext } from '../../context/AcknowledgeContext.jsx';
 
 function ModalRenameChannel(props) {
   const { channelId } = props;
@@ -25,6 +25,7 @@ function ModalRenameChannel(props) {
     type: null,
   }));
   const { renameChannel } = useContext(SocketContext);
+  const { acknowlodgeRenameChannel } = useContext(AcknowledgeContext);
   filter.add(filter.getDictionary('ru'));
 
   useEffect(() => { innerRef.current.focus(); }, [innerRef.current]);

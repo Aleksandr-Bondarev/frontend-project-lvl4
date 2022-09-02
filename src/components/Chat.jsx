@@ -12,12 +12,6 @@ import Messages from './Messages.jsx';
 import MessageSendingForm from './MessageSendingForm.jsx';
 import ModalsManager from './modals/ModalsManager.jsx';
 
-const getPlural = (num) => {
-  if (num < 15) return num;
-  if (String(num).slice(-2) < 15) return String(num).slice(-2);
-  return String(num).slice(-1);
-};
-
 function Chat() {
   const { getToken, logOut } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -37,7 +31,6 @@ function Chat() {
   const messagesInCurrentChannel = allChatMessages
     .filter((message) => message.channelId === channelId);
   const countOfCurrentMessages = messagesInCurrentChannel.length;
-  const i18nPlurals = getPlural(countOfCurrentMessages);
 
   const initChat = async () => {
     try {
@@ -49,7 +42,7 @@ function Chat() {
         },
       });
       const { channels, messages, currentChannelId } = response.data;
-      dispatch(switchChannel({ name: channels[currentChannelId - 1].name, id: currentChannelId }));
+      dispatch(switchChannel({ id: currentChannelId }));
       dispatch(initChannels({ channels, messages }));
     } catch (e) {
       if (e.response.status === 401) {
@@ -102,9 +95,7 @@ function Chat() {
                 </b>
               </p>
               <span className="text-muted">
-                {countOfCurrentMessages}
-                {' '}
-                {t(`messagesCount.${i18nPlurals}`)}
+                {t('messagesCount.messages', { count: countOfCurrentMessages })}
               </span>
             </div>
             <div id="messages-box" className="chat-messages overflow-auto px-5 ">

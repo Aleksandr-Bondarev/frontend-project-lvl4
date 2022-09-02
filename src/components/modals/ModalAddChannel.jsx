@@ -9,12 +9,13 @@ import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import { setModalStatusAndType } from '../../slices/modalsSlice.js';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
-import { acknowledgeChannelCreating } from '../../acknowledgeCallbacks.js';
+import { AcknowledgeContext } from '../../context/AcknowledgeContext.jsx';
 
 function ModalAddChannel() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { addChannel } = useContext(SocketContext);
+  const { acknowledgeChannelCreating } = useContext(AcknowledgeContext);
   const channelsInChat = useSelector((state) => state.channels.channels);
   const closeModal = () => dispatch(setModalStatusAndType({ isOpen: false, type: null }));
   filter.add(filter.getDictionary('ru'));

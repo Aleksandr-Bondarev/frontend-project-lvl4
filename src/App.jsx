@@ -11,6 +11,7 @@ import Navbar from './components/Navbar.jsx';
 import RoutesInit from './components/RoutesInit.jsx';
 import { AuthContextProvider } from './context/AuthContext.jsx';
 import { SocketContextProvider } from './context/SocketContextProvider.jsx';
+import { AcknowledgeContextProvider } from './context/AcknowledgeContext.jsx';
 import { setModalStatusAndType } from './slices/modalsSlice.js';
 import { sendNewMessage } from './slices/messagesSlice.js';
 import {
@@ -70,11 +71,13 @@ const App = (socket) => {
           <BrowserRouter>
             <SocketContextProvider socket={socket}>
               <AuthContextProvider>
-                <div className="d-flex flex-column h-100">
-                  <ToastContainer />
-                  <Navbar />
-                  <RoutesInit />
-                </div>
+                <AcknowledgeContextProvider>
+                  <div className="d-flex flex-column h-100">
+                    <ToastContainer />
+                    <Navbar />
+                    <RoutesInit />
+                  </div>
+                </AcknowledgeContextProvider>
               </AuthContextProvider>
             </SocketContextProvider>
           </BrowserRouter>

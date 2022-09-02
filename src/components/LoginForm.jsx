@@ -1,6 +1,6 @@
 /* eslint functional/no-let: [0] */
 
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -13,12 +13,12 @@ function LoginForm() {
   const { t } = useTranslation();
   const { login } = useContext(AuthContext);
   const rollbar = useRollbar();
+  const usernameInput = useRef(null);
+  const passwordInput = useRef(null);
 
   const handleUnauthorized = () => {
-    const usernameInput = document.querySelector('#username');
-    const passwordInput = document.querySelector('#password');
-    usernameInput.classList.add('is-invalid');
-    passwordInput.classList.add('is-invalid');
+    usernameInput.current.classList.add('is-invalid');
+    passwordInput.current.classList.add('is-invalid');
 
     const errorMessage = document.createElement('div');
     errorMessage.classList.add('invalid-tooltip');
@@ -76,6 +76,7 @@ function LoginForm() {
       <div className="form-floating mb-3">
         <input
           name="username"
+          ref={usernameInput}
           autoComplete="username"
           required
           placeholder="Ваш ник"
@@ -89,6 +90,7 @@ function LoginForm() {
       <div className="form-floating mb-4">
         <input
           name="password"
+          ref={passwordInput}
           autoComplete="current-password"
           required
           placeholder="Пароль"

@@ -10,7 +10,7 @@ export function SocketContextProvider({ children, socket }) {
     addMessage: ({ text, channelId, username }, cb) => socket.emit('newMessage', { text, channelId, username }, cb),
   };
 
-  const memorizedApi = useMemo(() => api);
+  const memorizedApi = useMemo(() => api, []);
 
   return (
     <SocketContext.Provider value={memorizedApi}>{children}</SocketContext.Provider>

@@ -4,13 +4,14 @@ import { useDispatch } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { setModalStatusAndType } from '../../slices/modalsSlice.js';
-import { acknowlodgeDeleteChannel } from '../../acknowledgeCallbacks.js';
+import { AcknowledgeContext } from '../../context/AcknowledgeContext.jsx';
 
 function ModalDeleteChannel(props) {
   const { channelId } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { removeChannel } = useContext(SocketContext);
+  const { acknowlodgeDeleteChannel } = useContext(AcknowledgeContext);
   const closeModal = () => dispatch(setModalStatusAndType({ isOpen: false, type: null }));
   const handleClickOnRemove = () => removeChannel(channelId, acknowlodgeDeleteChannel);
 

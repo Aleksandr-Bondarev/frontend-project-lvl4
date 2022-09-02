@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { SocketContext } from '../context/SocketContextProvider.jsx';
-import { acknowlodgeMessageSending } from '../acknowledgeCallbacks.js';
+import { AcknowledgeContext } from '../context/AcknowledgeContext.jsx';
 
 function MessageSendingForm() {
   const currentChannelId = useSelector(
@@ -13,6 +13,7 @@ function MessageSendingForm() {
   );
   const { addMessage } = useContext(SocketContext);
   const { getUser } = useContext(AuthContext);
+  const { acknowledgeMessageSending } = useContext(AcknowledgeContext);
   const { t } = useTranslation();
   const currentUserName = getUser();
   filter.add(filter.getDictionary('ru'));
@@ -28,7 +29,7 @@ function MessageSendingForm() {
           channelId: currentChannelId,
           username: currentUserName,
         },
-        acknowlodgeMessageSending,
+        acknowledgeMessageSending,
       );
       actions.resetForm();
     },

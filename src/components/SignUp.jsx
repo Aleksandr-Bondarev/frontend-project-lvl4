@@ -65,7 +65,7 @@ function SignUp() {
         login(response.data);
         navigate('/');
       } catch (e) {
-        if (e.response.data.message === 'Conflict') {
+        if (e.response.data.statusCode === 409) {
           handleConflict();
         } else {
           let status;
