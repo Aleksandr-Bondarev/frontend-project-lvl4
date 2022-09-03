@@ -9,16 +9,14 @@ import filter from 'leo-profanity';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { setModalStatusAndType } from '../../slices/modalsSlice.js';
 import { AcknowledgeContext } from '../../context/AcknowledgeContext.jsx';
+import { getChannels } from '../../selectorCallbacks.js';
 
 function ModalRenameChannel(props) {
   const { channelId } = props;
   const { t } = useTranslation();
   const innerRef = useRef();
-  const nameOfRenamingChannel = useSelector((state) => {
-    const channelToRaname = state.channels.channels.find((channel) => channel.id === channelId);
-    return channelToRaname.name;
-  });
-  const channelsInChat = useSelector((state) => state.channels.channels);
+  const channelsInChat = useSelector(getChannels);
+  const nameOfRenamingChannel = channelsInChat.find((channel) => channel.id === channelId).name;
   const dispatch = useDispatch();
   const closeModal = () => dispatch(setModalStatusAndType({
     isOpen: false,

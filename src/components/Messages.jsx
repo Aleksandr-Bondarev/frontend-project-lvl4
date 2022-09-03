@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { getAllMessages, getActiveChannelId } from '../selectorCallbacks.js';
 
 function Messages() {
-  const allChatMessages = useSelector((state) => state.messages.messages);
-  const currentChannelId = useSelector((state) => state.channels.activeChannelId);
+  const allChatMessages = useSelector(getAllMessages);
+  const currentChannelId = useSelector(getActiveChannelId);
   const currentChannelMessages = allChatMessages.filter((message) => message.channelId === currentChannelId);
 
   const messagesToRender = currentChannelMessages.map((message) => (

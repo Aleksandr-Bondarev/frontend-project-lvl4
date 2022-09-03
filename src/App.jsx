@@ -12,10 +12,8 @@ import RoutesInit from './components/RoutesInit.jsx';
 import { AuthContextProvider } from './context/AuthContext.jsx';
 import { SocketContextProvider } from './context/SocketContextProvider.jsx';
 import { AcknowledgeContextProvider } from './context/AcknowledgeContext.jsx';
-import { setModalStatusAndType } from './slices/modalsSlice.js';
 import { sendNewMessage } from './slices/messagesSlice.js';
 import {
-  switchChannel,
   addNewChannel, deleteChannel, changeChannelName,
 } from './slices/channelsSlice.js';
 import 'react-toastify/dist/ReactToastify.css';
@@ -50,18 +48,13 @@ const App = (socket) => {
   });
 
   socket.on('removeChannel', (response) => {
-    const currentActiveChannel = store.getState().channels.activeChannelId;
     const channelIdToRemove = response.id;
     store.dispatch(deleteChannel(channelIdToRemove));
-    if (channelIdToRemove === currentActiveChannel) {
-      store.dispatch(switchChannel({ name: 'general', id: 1 }));
-    }
   });
 
   socket.on('renameChannel', (response) => {
     const { name, id } = response;
     store.dispatch(changeChannelName({ name, id }));
-    store.dispatch(setModalStatusAndType({ isOpen: false, previousName: '', channelId: null }));
   });
 
   ReactDOM.render(

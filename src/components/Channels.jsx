@@ -7,15 +7,16 @@ import { Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { switchChannel } from '../slices/channelsSlice.js';
 import { setModalStatusAndType } from '../slices/modalsSlice.js';
+import { getChannels, getActiveChannelId } from '../selectorCallbacks.js';
 
 const Channels = () => {
   const { t } = useTranslation();
 
-  const chatChannels = useSelector((state) => state.channels.channels);
-  const activeChannelId = useSelector((state) => state.channels.activeChannelId);
+  const chatChannels = useSelector(getChannels);
+  const activeChannelId = useSelector(getActiveChannelId);
   const dispatch = useDispatch();
 
-  const channelsList = chatChannels.map((channel) => {
+  return (chatChannels.map((channel) => {
     const switchActiveChannel = () => dispatch(switchChannel({ id: channel.id }));
     const openDeleteModal = () => {
       dispatch(setModalStatusAndType({
@@ -64,8 +65,7 @@ const Channels = () => {
         </div>
       </li>
     );
-  });
-  return channelsList;
+  }));
 };
 
 export default Channels;

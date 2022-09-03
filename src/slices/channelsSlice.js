@@ -22,6 +22,9 @@ const channelsSlice = createSlice({
     deleteChannel: (state, action) => {
       const id = action.payload;
       state.channels = state.channels.filter((channel) => channel.id !== id);
+      if (state.activeChannelId === action.payload) {
+        state.activeChannelId = 1;
+      }
     },
     changeChannelName: (state, action) => {
       const { name, id } = action.payload;

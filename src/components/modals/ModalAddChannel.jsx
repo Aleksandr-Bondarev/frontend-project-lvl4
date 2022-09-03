@@ -10,13 +10,14 @@ import filter from 'leo-profanity';
 import { setModalStatusAndType } from '../../slices/modalsSlice.js';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { AcknowledgeContext } from '../../context/AcknowledgeContext.jsx';
+import { getChannels } from '../../selectorCallbacks.js';
 
 function ModalAddChannel() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { addChannel } = useContext(SocketContext);
   const { acknowledgeChannelCreating } = useContext(AcknowledgeContext);
-  const channelsInChat = useSelector((state) => state.channels.channels);
+  const channelsInChat = useSelector(getChannels);
   const closeModal = () => dispatch(setModalStatusAndType({ isOpen: false, type: null }));
   filter.add(filter.getDictionary('ru'));
 

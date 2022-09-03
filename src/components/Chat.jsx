@@ -7,6 +7,14 @@ import { toast } from 'react-toastify';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { switchChannel, initChannels } from '../slices/channelsSlice.js';
 import { setModalStatusAndType } from '../slices/modalsSlice.js';
+import {
+  getChannels,
+  getActiveChannelId,
+  getModalStatus,
+  getModalType,
+  getChannelIdForModal,
+  getAllMessages,
+} from '../selectorCallbacks.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 import MessageSendingForm from './MessageSendingForm.jsx';
@@ -17,17 +25,14 @@ function Chat() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const rollbar = useRollbar();
-  const typeOfOpenedModal = useSelector((state) => state.modals.type);
-  const channelIdForModal = useSelector((state) => state.modals.channelId);
-  const modalIsOpen = useSelector((state) => state.modals.isOpen);
-  const channelId = useSelector((state) => state.channels.activeChannelId);
+  const typeOfOpenedModal = useSelector(getModalType);
+  const channelIdForModal = useSelector(getChannelIdForModal);
+  const modalIsOpen = useSelector(getModalStatus);
+  const channelId = useSelector(getActiveChannelId);
   const openAddChannelModal = () => dispatch(setModalStatusAndType({ isOpen: true, type: 'add' }));
-  const currentChannelName = useSelector((state) => {
-    const currentChannel = state.channels.channels.find((channel) => channel.id === channelId);
-    const name = currentChannel ? currentChannel.name : null;
-    return name;
-  });
-  const allChatMessages = useSelector((state) => state.messages.messages);
+  const currentChannel = useSelector(getChannels).find((channel) => channel.id === channelId);
+  const currentChannelName = currentChannel ? currentChannel.name : null;
+  const allChatMessages = useSelector(getAllMessages);
   const messagesInCurrentChannel = allChatMessages
     .filter((message) => message.channelId === channelId);
   const countOfCurrentMessages = messagesInCurrentChannel.length;

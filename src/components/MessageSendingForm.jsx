@@ -6,11 +6,10 @@ import filter from 'leo-profanity';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { SocketContext } from '../context/SocketContextProvider.jsx';
 import { AcknowledgeContext } from '../context/AcknowledgeContext.jsx';
+import { getActiveChannelId } from '../selectorCallbacks.js';
 
 function MessageSendingForm() {
-  const currentChannelId = useSelector(
-    (state) => state.channels.activeChannelId,
-  );
+  const currentChannelId = useSelector(getActiveChannelId);
   const { addMessage } = useContext(SocketContext);
   const { getUser } = useContext(AuthContext);
   const { acknowledgeMessageSending } = useContext(AcknowledgeContext);

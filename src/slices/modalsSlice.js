@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { createSlice } from '@reduxjs/toolkit';
+import { changeChannelName } from './channelsSlice.js';
 
 const initialState = {
   isOpen: false,
@@ -19,6 +20,14 @@ const modalsSlice = createSlice({
         state.channelId = action.payload.channelId;
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(changeChannelName, (state) => {
+        state.isOpen = false;
+        state.type = null;
+        state.channelId = null;
+      });
   },
 });
 
