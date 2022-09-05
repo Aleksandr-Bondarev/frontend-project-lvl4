@@ -2,7 +2,7 @@
 /* eslint jsx-a11y/no-autofocus: [0] */
 /* eslint functional/no-let: [0] */
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -13,28 +13,11 @@ import { useTranslation } from 'react-i18next';
 import signUp from '../images/signUp.jpeg';
 import { AuthContext } from '../context/AuthContext.jsx';
 
-const handleConflict = () => {
-  const usernameInput = document.querySelector('#username');
-  const passwordInput = document.querySelector('#password');
-  const confirmInput = document.querySelector('#confirmPassword');
-
-  usernameInput.classList.add('is-invalid');
-  passwordInput.classList.add('is-invalid');
-  confirmInput.classList.add('is-invalid');
-
-  const container = document.getElementById('confirmPassword').parentNode;
-
-  const tooltipConfirm = document.createElement('div');
-  tooltipConfirm.classList.add('invalid-tooltip');
-  tooltipConfirm.textContent = 'Такой пользователь уже существует';
-
-  container.appendChild(tooltipConfirm);
-};
-
 function SignUp() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [registrationState, setRegistrationState] = useState('initial');
 
   const formik = useFormik({
     initialValues: {
@@ -66,7 +49,7 @@ function SignUp() {
         navigate('/');
       } catch (e) {
         if (e.response.data.statusCode === 409) {
-          handleConflict();
+          setRegistrationState(false);
         } else {
           let status;
 
@@ -106,7 +89,7 @@ function SignUp() {
                     autoComplete="username"
                     required=""
                     id="username"
-                    className={classNames('form-control', { 'is-invalid': (formik.errors.username && formik.touched.username) })}
+                    className={classNames('form-control', { 'is-invalid': ((formik.errors.username && formik.touched.username) || !registrationState) })}
                     value={formik.values.username}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -124,7 +107,7 @@ function SignUp() {
                     autoComplete="new-password"
                     type="password"
                     id="password"
-                    className={classNames('form-control', { 'is-invalid': (formik.errors.password && formik.touched.password) })}
+                    className={classNames('form-control', { 'is-invalid': ((formik.errors.password && formik.touched.password) || !registrationState) })}
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -141,7 +124,7 @@ function SignUp() {
                     autoComplete="new-password"
                     type="password"
                     id="confirmPassword"
-                    className={classNames('form-control', { 'is-invalid': (formik.errors.confirmPassword && formik.touched.confirmPassword) })}
+                    className={classNames('form-control', { 'is-invalid': ((formik.errors.confirmPassword && formik.touched.confirmPassword) || !registrationState) })}
                     value={formik.values.confirmPassword}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -150,6 +133,8 @@ function SignUp() {
                     <div className="invalid-tooltip" id="tooltipConfirmPassword">{t(formik.errors.confirmPassword)}</div>
                   ) : null}
                   <label className="form-label" htmlFor="confirmPassword">{t('labels.confirmPassword')}</label>
+                  {!registrationState
+                  && <div className="invalid-tooltip">{t('errors.userAlreadyExists')}</div>}
                 </div>
                 <button type="submit" className="w-100 btn btn-outline-primary">{t('labels.toSignUp')}</button>
               </form>

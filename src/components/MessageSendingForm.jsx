@@ -6,7 +6,7 @@ import filter from 'leo-profanity';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { SocketContext } from '../context/SocketContextProvider.jsx';
 import { AcknowledgeContext } from '../context/AcknowledgeContext.jsx';
-import { getActiveChannelId } from '../selectorCallbacks.js';
+import { getActiveChannelId } from '../selectors.js';
 
 function MessageSendingForm() {
   const currentChannelId = useSelector(getActiveChannelId);

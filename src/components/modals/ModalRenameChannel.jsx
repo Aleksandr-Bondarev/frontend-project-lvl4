@@ -9,7 +9,7 @@ import filter from 'leo-profanity';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { setModalStatusAndType } from '../../slices/modalsSlice.js';
 import { AcknowledgeContext } from '../../context/AcknowledgeContext.jsx';
-import { getChannels } from '../../selectorCallbacks.js';
+import { getChannels } from '../../selectors.js';
 
 function ModalRenameChannel(props) {
   const { channelId } = props;

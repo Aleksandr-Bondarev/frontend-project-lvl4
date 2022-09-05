@@ -14,7 +14,7 @@ import {
   getModalType,
   getChannelIdForModal,
   getAllMessages,
-} from '../selectorCallbacks.js';
+} from '../selectors.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 import MessageSendingForm from './MessageSendingForm.jsx';

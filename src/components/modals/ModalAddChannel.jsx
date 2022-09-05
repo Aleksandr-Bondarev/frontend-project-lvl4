@@ -10,7 +10,7 @@ import filter from 'leo-profanity';
 import { setModalStatusAndType } from '../../slices/modalsSlice.js';
 import { SocketContext } from '../../context/SocketContextProvider.jsx';
 import { AcknowledgeContext } from '../../context/AcknowledgeContext.jsx';
-import { getChannels } from '../../selectorCallbacks.js';
+import { getChannels } from '../../selectors.js';
 
 function ModalAddChannel() {
   const { t } = useTranslation();

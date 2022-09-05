@@ -7,7 +7,7 @@ import { Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { switchChannel } from '../slices/channelsSlice.js';
 import { setModalStatusAndType } from '../slices/modalsSlice.js';
-import { getChannels, getActiveChannelId } from '../selectorCallbacks.js';
+import { getChannels, getActiveChannelId } from '../selectors.js';
 
 const Channels = () => {
   const { t } = useTranslation();

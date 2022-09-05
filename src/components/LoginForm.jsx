@@ -1,9 +1,10 @@
 /* eslint functional/no-let: [0] */
 
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import classNames from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
@@ -15,18 +16,8 @@ function LoginForm() {
   const rollbar = useRollbar();
   const usernameInput = useRef(null);
   const passwordInput = useRef(null);
-
-  const handleUnauthorized = () => {
-    usernameInput.current.classList.add('is-invalid');
-    passwordInput.current.classList.add('is-invalid');
-
-    const errorMessage = document.createElement('div');
-    errorMessage.classList.add('invalid-tooltip');
-    errorMessage.textContent = t('errors.loginErrors');
-
-    const errorContainer = document.querySelector('.form-floating.mb-4');
-    errorContainer.append(errorMessage);
-  };
+  const errorContainer = useRef(null);
+  const [authState, setAuthState] = useState('initial');
 
   const validation = yup.object().shape({
     username: yup.string().required('errors.loginErrors'),
@@ -44,8 +35,8 @@ function LoginForm() {
         const response = await axios.post('http://localhost:5000/api/v1/login', values);
         login(response.data);
       } catch (e) {
-        if (e.response.data.message === 'Unauthorized') {
-          handleUnauthorized();
+        if (e.response.data.statusCode === 401) {
+          setAuthState(false);
           rollbar.error(e);
         } else {
           let status;
@@ -81,13 +72,13 @@ function LoginForm() {
           required
           placeholder="Ваш ник"
           id="username"
-          className="form-control"
+          className={classNames('form-control', { 'is-invalid': (!authState) })}
           onChange={formik.handleChange}
           value={formik.values.username}
         />
         <label htmlFor="username">{t('labels.yourNickname')}</label>
       </div>
-      <div className="form-floating mb-4">
+      <div ref={errorContainer} className="form-floating mb-4">
         <input
           name="password"
           ref={passwordInput}
@@ -96,13 +87,15 @@ function LoginForm() {
           placeholder="Пароль"
           type="password"
           id="password"
-          className="form-control"
+          className={classNames('form-control', { 'is-invalid': (!authState) })}
           onChange={formik.handleChange}
           value={formik.values.password}
         />
         <label className="form-label" htmlFor="password">
           {t('labels.password')}
         </label>
+        {!authState
+        && <div className="invalid-tooltip">{t('errors.loginErrors')}</div>}
       </div>
       <button
         type="submit"

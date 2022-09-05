@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getAllMessages, getActiveChannelId } from '../selectorCallbacks.js';
+import { getAllMessages, getActiveChannelId } from '../selectors.js';
 
 function Messages() {
   const allChatMessages = useSelector(getAllMessages);

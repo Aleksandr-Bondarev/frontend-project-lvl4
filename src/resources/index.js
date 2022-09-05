@@ -9,6 +9,7 @@ const resources = {
         loginErrors: 'Неверные имя пользователя или пароль',
         shouldBeUnique: 'Должно быть уникальным',
         connectionFailed: 'Ошибка соединения',
+        userAlreadyExists: 'Такой пользователь уже существует',
       },
       labels: {
         channels: 'Каналы',
